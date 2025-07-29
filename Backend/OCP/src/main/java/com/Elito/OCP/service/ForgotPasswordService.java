@@ -15,5 +15,8 @@ public interface ForgotPasswordService {
 
     void deleteToken(ForgotPasswordToken token);
 
+    // add recently
+    void deleteByUserId(Long userId);
+
 
 }

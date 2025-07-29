@@ -21,6 +21,7 @@ public class AppConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http.sessionManagement(mangement-> mangement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(Authorize ->Authorize.requestMatchers("/api/**").authenticated()
+                        .requestMatchers("/auth/users/reset-password/**").permitAll()
                         .anyRequest().permitAll())
                 .addFilterBefore(new JwtTokenValidator() , BasicAuthenticationFilter.class)
                 .csrf(csrf->csrf.disable())

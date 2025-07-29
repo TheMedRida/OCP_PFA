@@ -1,4 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
+import AppRoutes from './routes/AppRoutes';
+
+function App() {
+  return (
+    <AppRoutes />
+  );
+}
+
+export default App;
+
+
+/*import React, { useState } from 'react';
 import Sidebar from './components/Layout/Sidebar';
 import Header from './components/Layout/Header';
 import Dashboard from './components/Dashboard/Dashboard';
@@ -33,4 +45,4 @@ function App() {
   );
 }
 
-export default App;
+export default App;*/
