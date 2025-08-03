@@ -20,7 +20,6 @@ import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.graphql.GraphQlProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -88,77 +87,7 @@ public class UserController {
         throw new Exception("wrong otp");
     }
 
-    /*
-    @PostMapping("/auth/users/reset-password/send-otp")
-    public ResponseEntity<AuthResponse> sendForgotPasswordOtp(@RequestBody ForgotPasswordTokenRequest req) throws Exception {
 
-        User user = userService.findUserByEmail(req.getSendTo());
-        String  otp = OtpUtils.generateOTP();
-        UUID uuid = UUID.randomUUID();
-        String id = uuid.toString();
-
-        ForgotPasswordToken token = forgotPasswordService.findByUser(user.getId());
-        if(token == null){
-            token = forgotPasswordService.createToken(user ,id,otp,req.getVerificationType(),req.getSendTo());
-        }
-
-        if(req.getVerificationType().equals(VerificationType.EMAIL)){
-            emailService.sendVerificationOtpEmail(user.getEmail() , token.getOtp());
-        }
-        AuthResponse response = new AuthResponse();
-        response.setSession(token.getId());
-        response.setMessage("Password reset otp sent successfully");
-
-        return new ResponseEntity<>(response , HttpStatus.OK);
-    }*/
-
-
-    /*@PostMapping("/auth/users/reset-password/send-otp")
-    @Transactional
-    public ResponseEntity<AuthResponse> sendForgotPasswordOtp(@RequestBody ForgotPasswordTokenRequest req) throws Exception {
-
-        User user = userService.findUserByEmail(req.getSendTo());
-        String otp = OtpUtils.generateOTP();
-        UUID uuid = UUID.randomUUID();
-        String id = uuid.toString();
-
-        // Delete any existing tokens for this user first
-        forgotPasswordService.deleteByUserId(user.getId());
-
-        // Create new token
-        ForgotPasswordToken token = forgotPasswordService.createToken(user, id, otp, req.getVerificationType(), req.getSendTo());
-
-        if(req.getVerificationType().equals(VerificationType.EMAIL)){
-            emailService.sendVerificationOtpEmail(user.getEmail(), token.getOtp());
-        }
-
-        AuthResponse response = new AuthResponse();
-        response.setSession(token.getId());
-        response.setMessage("Password reset otp sent successfully");
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-
-
-
-
-    @PatchMapping("/auth/users/reset-password/verify-otp")
-    public ResponseEntity<ApiResponse> resetPassword(@RequestParam String id, @RequestBody ResetPasswordRequest req, @RequestHeader("Authorization") String jwt) throws Exception {
-
-        ForgotPasswordToken forgotPasswordToken = forgotPasswordService.findById(id);
-
-        boolean isVerified = forgotPasswordToken.getOtp().equals(req.getOtp());
-
-        if(isVerified){
-            userService.updatePassword(forgotPasswordToken.getUser(),req.getPassword());
-            ApiResponse res = new ApiResponse();
-            res.setMessage("password update successfully");
-            return new ResponseEntity<>(res,HttpStatus.ACCEPTED);
-        }
-        throw new Exception("wrong otp");
-
-    }*/
 
     @PostMapping("/auth/users/reset-password/send-otp")
     @Transactional
@@ -210,15 +139,26 @@ public class UserController {
         }
 
         ForgotPasswordToken forgotPasswordToken = forgotPasswordService.findById(id);
-        boolean isVerified = forgotPasswordToken.getOtp().equals(req.getOtp());
-
-        if(isVerified) {
-            userService.updatePassword(forgotPasswordToken.getUser(), req.getPassword());
-            ApiResponse res = new ApiResponse();
-            res.setMessage("Password updated successfully");
-            return new ResponseEntity<>(res, HttpStatus.ACCEPTED);
+        if (forgotPasswordToken == null) {
+            throw new Exception("Invalid OTP session");
         }
-        throw new Exception("Wrong OTP");
+
+        if (!forgotPasswordToken.getOtp().equals(req.getOtp())) {
+            throw new Exception("Wrong OTP");
+        }
+
+        // Verify new password meets requirements (add your own validation)
+        if (req.getPassword() == null || req.getPassword().length() < 8) {
+            throw new Exception("Password must be at least 8 characters");
+        }
+
+        // Update password with encoding
+        userService.updatePassword(forgotPasswordToken.getUser(), req.getPassword());
+
+        // Delete the used token
+        forgotPasswordService.deleteToken( forgotPasswordToken);
+
+        return ResponseEntity.ok(new ApiResponse("Password updated successfully"));
     }
 
 

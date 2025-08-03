@@ -6,6 +6,7 @@ import com.Elito.OCP.model.TwoFactorAuth;
 import com.Elito.OCP.model.User;
 import com.Elito.OCP.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
@@ -16,6 +17,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public User findUserProfileByJwt(String jwt) throws Exception {
@@ -61,7 +65,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updatePassword(User user, String newPassword) {
-        user.setPassword(newPassword);
+        user.setPassword(passwordEncoder.encode(newPassword));
         return userRepository.save(user);
     }
 }

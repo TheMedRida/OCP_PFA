@@ -5,12 +5,13 @@ import com.Elito.OCP.model.User;
 import com.Elito.OCP.repository.TwoFactorOtpRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class TwoFactorOtpServiceImpl implements TwoFactorOtpService{
+public class TwoFactorOtpServiceImpl implements TwoFactorOtpService {
 
     @Autowired
     private TwoFactorOtpRepository twoFactorOtpRepository;
@@ -18,7 +19,6 @@ public class TwoFactorOtpServiceImpl implements TwoFactorOtpService{
     @Override
     public TwoFactorOTP createTwoFactorOtp(User user, String otp, String jwt) {
         UUID uuid = UUID.randomUUID();
-
         String id = uuid.toString();
 
         TwoFactorOTP twoFactorOTP = new TwoFactorOTP();
@@ -43,13 +43,31 @@ public class TwoFactorOtpServiceImpl implements TwoFactorOtpService{
 
     @Override
     public boolean verifyTwoFactorOtp(TwoFactorOTP twoFactorOTP, String otp) {
-        return twoFactorOTP.getOtp().equals(otp);
+        return twoFactorOTP != null && twoFactorOTP.getOtp().equals(otp);
     }
 
     @Override
+    @Transactional
     public void deleteTwoFactorOtp(TwoFactorOTP twoFactorOTP) {
+        if (twoFactorOTP != null) {
+            twoFactorOtpRepository.delete(twoFactorOTP);
+        }
+    }
 
-        twoFactorOtpRepository.delete(twoFactorOTP);
+    @Override
+    @Transactional
+    public void deleteByUserId(Long userId) {
+        TwoFactorOTP otp = findByUser(userId);
+        if (otp != null) {
+            twoFactorOtpRepository.delete(otp);
+        }
+    }
 
+    @Override
+    public TwoFactorOTP updateTwoFactorOtp(TwoFactorOTP twoFactorOTP) {
+        if (twoFactorOTP == null) {
+            return null;
+        }
+        return twoFactorOtpRepository.save(twoFactorOTP);
     }
 }

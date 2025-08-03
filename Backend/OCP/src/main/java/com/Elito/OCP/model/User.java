@@ -4,10 +4,16 @@ import com.Elito.OCP.domain.USER_ROLE;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Data
-public class User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -15,6 +21,7 @@ public class User {
 
     private String fullName;
     private String email;
+    //private String tel;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
@@ -22,7 +29,43 @@ public class User {
     @Embedded
     private TwoFactorAuth twoFactorAuth = new TwoFactorAuth();
 
-    private USER_ROLE role = USER_ROLE.ROLE_VISITER;
+    //@Enumerated(EnumType.STRING)
+    private USER_ROLE role = USER_ROLE.USER;
 
+    /*@Column(nullable = false)
+    private boolean isActive = false;
 
+    @OneToMany(mappedBy = "assignedTechnician")
+    private List<Intervention> assignedInterventions;*/
+
+    // UserDetails methods implementation
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

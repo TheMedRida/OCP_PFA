@@ -1,14 +1,17 @@
 package com.Elito.OCP.controller;
 
 import com.Elito.OCP.config.JwtProvider;
+import com.Elito.OCP.domain.USER_ROLE;
 import com.Elito.OCP.model.TwoFactorOTP;
 import com.Elito.OCP.model.User;
 import com.Elito.OCP.repository.UserRepository;
+import com.Elito.OCP.response.ApiResponse;
 import com.Elito.OCP.response.AuthResponse;
 import com.Elito.OCP.service.CustomUserDetailsService;
 import com.Elito.OCP.service.EmailService;
 import com.Elito.OCP.service.TwoFactorOtpService;
 import com.Elito.OCP.utils.OtpUtils;
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +20,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -35,107 +39,167 @@ public class AuthController {
     @Autowired
     private EmailService emailService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @PostMapping("/signup")
     public ResponseEntity<AuthResponse> register(@RequestBody User user) throws Exception {
-
-        User isEmailExist = userRepository.findByEmail(user.getEmail());
-
-        if(isEmailExist!=null){
-            throw new Exception("email is already used with another account");
+        // Validate email uniqueness
+        if (userRepository.findByEmail(user.getEmail()) != null) {
+            throw new Exception("Email is already registered");
         }
 
+        // Create new user
         User newUser = new User();
         newUser.setFullName(user.getFullName());
         newUser.setEmail(user.getEmail());
-        newUser.setPassword(user.getPassword());
+        newUser.setPassword(passwordEncoder.encode(user.getPassword())); // Encode password
+        newUser.setRole(user.getRole() != null ? user.getRole() : USER_ROLE.USER);
 
         User savedUser = userRepository.save(newUser);
 
-        Authentication auth = new UsernamePasswordAuthenticationToken(user.getEmail(),user.getPassword());
+        // Authenticate the user
+        UserDetails userDetails = customUserDetailsService.loadUserByUsername(savedUser.getEmail());
+        Authentication auth = new UsernamePasswordAuthenticationToken(
+                userDetails,
+                user.getPassword(),
+                userDetails.getAuthorities()
+        );
         SecurityContextHolder.getContext().setAuthentication(auth);
 
+        // Generate JWT
         String jwt = JwtProvider.generateToken(auth);
 
-
+        // Build response
         AuthResponse res = new AuthResponse();
         res.setJwt(jwt);
         res.setStatus(true);
-        res.setMessage("register success");
+        res.setMessage("Registration successful");
+        res.setRole(savedUser.getRole().name());
 
-
-        return new ResponseEntity<>(res , HttpStatus.CREATED);
+        return new ResponseEntity<>(res, HttpStatus.CREATED);
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<AuthResponse> login(@RequestBody User user) throws Exception {
+    public ResponseEntity<AuthResponse> login(@RequestBody User loginRequest) throws Exception {
+        String email = loginRequest.getEmail();
+        String password = loginRequest.getPassword();
 
-        String userName = user.getEmail();
-        String password = user.getPassword();
-
-        Authentication auth = authenticate(userName,password);
+        // Authenticate
+        Authentication auth = authenticate(email, password);
         SecurityContextHolder.getContext().setAuthentication(auth);
 
+        // Get authenticated user
+        User user = (User) auth.getPrincipal();
+
+        // Generate JWT
         String jwt = JwtProvider.generateToken(auth);
 
-        User authuser = userRepository.findByEmail(userName);
-
-        if(user.getTwoFactorAuth().isEnabled()){
-            AuthResponse res = new AuthResponse();
-            res.setMessage("Two factor auth is enabled");
-            res.setTwoFactorAuthEnabled(true);
-            String otp = OtpUtils.generateOTP();
-
-            TwoFactorOTP oldTwoFactorOTP = twoFactorOtpService.findByUser(authuser.getId());
-            if(oldTwoFactorOTP!=null){
-                twoFactorOtpService.deleteTwoFactorOtp(oldTwoFactorOTP);
-            }
-
-            TwoFactorOTP newTwoFactorOTP =twoFactorOtpService.createTwoFactorOtp(authuser ,otp , jwt );
-
-            emailService.sendVerificationOtpEmail(userName,otp);
-
-            res.setSession(newTwoFactorOTP.getId());
-
-
-            return new ResponseEntity<>(res , HttpStatus.ACCEPTED);
+        // Handle 2FA if enabled
+        if (user.getTwoFactorAuth().isEnabled()) {
+            return handleTwoFactorAuth(user, jwt);
         }
 
-        AuthResponse res = new AuthResponse();
-        res.setJwt(jwt);
-        res.setStatus(true);
-        res.setMessage("login success");
-
-
-        return new ResponseEntity<>(res , HttpStatus.CREATED);
-    }
-
-    private Authentication authenticate(String userName, String password) {
-
-        UserDetails userDetails =  customUserDetailsService.loadUserByUsername(userName);
-
-        if(userDetails==null){
-            throw new BadCredentialsException("invalid username");
-        }
-        if(!password.equals(userDetails.getPassword())){
-            throw new BadCredentialsException("invalid password");
-        }
-        return new UsernamePasswordAuthenticationToken(userDetails,password,userDetails.getAuthorities());
+        // Build success response
+        AuthResponse res = buildAuthResponse(user, jwt, "Login successful");
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
     @PostMapping("/two-factor/otp/{otp}")
-    public ResponseEntity<AuthResponse> verifySigninOtp(@PathVariable String otp,@RequestParam String id) throws Exception {
+    public ResponseEntity<AuthResponse> verifySigninOtp(
+            @PathVariable String otp,
+            @RequestParam String sessionId) throws Exception {
 
-        TwoFactorOTP twoFactorOTP = twoFactorOtpService.findById(id);
-        if(twoFactorOtpService.verifyTwoFactorOtp(twoFactorOTP,otp)){
-            AuthResponse res = new AuthResponse();
-            res.setMessage("Two factor authentification verified");
-            res.setTwoFactorAuthEnabled(true);
-            res.setJwt(twoFactorOTP.getJwt());
-            return new ResponseEntity<>(res,HttpStatus.OK);
+        TwoFactorOTP twoFactorOTP = twoFactorOtpService.findById(sessionId);
+        if (twoFactorOTP == null) {
+            throw new Exception("Invalid OTP session");
         }
-        throw new Exception("invalid otp");
 
+        if (!twoFactorOtpService.verifyTwoFactorOtp(twoFactorOTP, otp)) {
+            throw new Exception("Invalid OTP");
+        }
+
+        User user = twoFactorOTP.getUser();
+        if (user == null) {
+            throw new Exception("User not found");
+        }
+
+        AuthResponse res = buildAuthResponse(
+                user,
+                twoFactorOTP.getJwt(),
+                "Two-factor authentication verified"
+        );
+        res.setTwoFactorAuthEnabled(true);
+
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
+    @PostMapping("/two-factor/resend-otp")
+    public ResponseEntity<ApiResponse> resendTwoFactorOtp(
+            @RequestParam String sessionId) throws Exception {
 
+        TwoFactorOTP existingOTP = twoFactorOtpService.findById(sessionId);
+        if (existingOTP == null) {
+            throw new Exception("Invalid session");
+        }
+
+        User user = existingOTP.getUser();
+        String newOtp = OtpUtils.generateOTP();
+
+        existingOTP.setOtp(newOtp);
+        twoFactorOtpService.updateTwoFactorOtp(existingOTP);
+
+        emailService.sendVerificationOtpEmail(user.getEmail(), newOtp);
+
+        return ResponseEntity.ok(
+                new ApiResponse("New OTP sent successfully")
+        );
+    }
+
+    // Helper Methods
+    private Authentication authenticate(String email, String password) {
+        UserDetails userDetails = customUserDetailsService.loadUserByUsername(email);
+
+        if (userDetails == null) {
+            throw new BadCredentialsException("Invalid username");
+        }
+
+        if (!passwordEncoder.matches(password, userDetails.getPassword())) {
+            throw new BadCredentialsException("Invalid password");
+        }
+
+        return new UsernamePasswordAuthenticationToken(
+                userDetails,
+                password,
+                userDetails.getAuthorities()
+        );
+    }
+
+    private ResponseEntity<AuthResponse> handleTwoFactorAuth(User user, String jwt) throws MessagingException {
+        String otp = OtpUtils.generateOTP();
+
+        // Clear any existing OTP
+        twoFactorOtpService.deleteByUserId(user.getId());
+
+        // Create new OTP record
+        TwoFactorOTP newOTP = twoFactorOtpService.createTwoFactorOtp(user, otp, jwt);
+        emailService.sendVerificationOtpEmail(user.getEmail(), otp);
+
+        AuthResponse res = new AuthResponse();
+        res.setMessage("Two-factor authentication required");
+        res.setTwoFactorAuthEnabled(true);
+        res.setRole(user.getRole().name());
+        res.setSession(newOTP.getId());
+
+        return new ResponseEntity<>(res, HttpStatus.ACCEPTED);
+    }
+
+    private AuthResponse buildAuthResponse(User user, String jwt, String message) {
+        AuthResponse res = new AuthResponse();
+        res.setJwt(jwt);
+        res.setStatus(true);
+        res.setMessage(message);
+        res.setRole(user.getRole().name());
+        return res;
+    }
 }

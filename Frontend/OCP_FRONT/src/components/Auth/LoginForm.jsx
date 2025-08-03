@@ -58,7 +58,7 @@ export default function LoginForm() {
         // Check if two-factor auth is enabled
         if (data.twoFactorAuthEnabled) {
           // Navigate to 2FA verification page with session ID
-          navigate('/verify-2fa', { state: { sessionId: data.session, email: formData.username } });
+          navigate('/verify-2fa', { state: { sessionId: data.session, email: formData.username ,role: data.role } });
           return;
         }
 
@@ -69,7 +69,7 @@ export default function LoginForm() {
             email: formData.username,
             // You might want to get more user data from another endpoint
             // or include it in your Spring Boot response
-            role: 'USER' // Default role, adjust based on your needs
+            role: data.role
           };
 
           // Use the login function from AuthContext

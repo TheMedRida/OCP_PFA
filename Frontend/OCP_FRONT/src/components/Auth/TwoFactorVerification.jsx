@@ -7,6 +7,7 @@ export default function TwoFactorVerification() {
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const [isResending, setIsResending] = useState(false);
   
   const location = useLocation();
@@ -56,7 +57,7 @@ export default function TwoFactorVerification() {
     setError('');
 
     try {
-      const response = await fetch(`http://localhost:5455/auth/two-factor/otp/${otpValue}?id=${sessionId}`, {
+      const response = await fetch(`http://localhost:5455/auth/two-factor/otp/${otpValue}?sessionId=${sessionId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -70,7 +71,7 @@ export default function TwoFactorVerification() {
           // Create user object
           const userData = {
             email: email,
-            role: 'USER', // You might want to get this from user profile endpoint
+            role: data.role,
             twoFactorEnabled: true
           };
           
@@ -94,13 +95,36 @@ export default function TwoFactorVerification() {
   const handleResendOtp = async () => {
     setIsResending(true);
     setError('');
+    setSuccess('');
     
     try {
-      // Note: You might need to add a resend endpoint to your Spring Boot API
-      // For now, this will redirect back to login
-      navigate('/login');
+      const response = await fetch(`http://localhost:5455/auth/two-factor/resend-otp?sessionId=${sessionId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setSuccess('New verification code sent to your email!');
+        
+        // Clear the current OTP inputs
+        setOtp(['', '', '', '', '', '']);
+        
+        // Focus on first input
+        const firstInput = document.getElementById('otp-0');
+        if (firstInput) firstInput.focus();
+        
+        // Clear success message after 3 seconds
+        setTimeout(() => setSuccess(''), 3000);
+      } else {
+        const errorData = await response.json();
+        setError(errorData.message || 'Failed to resend OTP');
+      }
     } catch (error) {
-      setError('Failed to resend OTP');
+      console.error('Resend OTP error:', error);
+      setError('Connection error. Please try again.');
     } finally {
       setIsResending(false);
     }
@@ -134,6 +158,13 @@ export default function TwoFactorVerification() {
             <p className="text-gray-300">Enter the 6-digit code sent to your email</p>
             <p className="text-sm text-purple-300 mt-2">{email}</p>
           </div>
+
+          {/* Success Message */}
+          {success && (
+            <div className="mb-6 p-4 bg-green-500/20 border border-green-500/30 rounded-xl text-green-200 text-sm">
+              {success}
+            </div>
+          )}
 
           {/* Error Message */}
           {error && (
@@ -180,7 +211,7 @@ export default function TwoFactorVerification() {
             <button
               onClick={handleResendOtp}
               disabled={isResending}
-              className="text-purple-400 hover:text-purple-300 transition-colors duration-200 text-sm flex items-center justify-center mx-auto"
+              className="text-purple-400 hover:text-purple-300 transition-colors duration-200 text-sm flex items-center justify-center mx-auto disabled:opacity-50"
             >
               <RefreshCw className={`w-4 h-4 mr-2 ${isResending ? 'animate-spin' : ''}`} />
               {isResending ? 'Resending...' : 'Resend Code'}

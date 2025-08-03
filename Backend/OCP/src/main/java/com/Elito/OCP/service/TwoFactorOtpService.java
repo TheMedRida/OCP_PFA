@@ -15,6 +15,9 @@ public interface TwoFactorOtpService {
 
     void deleteTwoFactorOtp(TwoFactorOTP twoFactorOTP);
 
+    void deleteByUserId(Long userId);
+
+    TwoFactorOTP updateTwoFactorOtp(TwoFactorOTP twoFactorOTP);
 
 
 
