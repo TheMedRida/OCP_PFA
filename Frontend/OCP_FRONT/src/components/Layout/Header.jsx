@@ -1,8 +1,10 @@
 import { Bell, Filter, Menu, Plus, Search, Settings, Sun, ChevronDown, LogOut, User } from "lucide-react";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Header({ sidebarCollapsed, onToggleSidebar, user, onLogout }) {
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     if (window.confirm('Are you sure you want to logout?')) {
@@ -11,19 +13,45 @@ function Header({ sidebarCollapsed, onToggleSidebar, user, onLogout }) {
     setShowUserMenu(false);
   };
 
+  const handleProfileClick = () => {
+    navigate('/profile');
+    setShowUserMenu(false);
+  };
+
   const getRoleColor = (role) => {
     switch (role?.toUpperCase()) {
       case 'ADMIN':
         return 'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400';
-      case 'MANAGER':
+      case 'TECHNICIAN':
         return 'bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400';
       case 'USER':
         return 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400';
-      case 'VIEWER':
-        return 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400';
       default:
         return 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400';
     }
+  };
+
+  const getAvatarColor = (role) => {
+    switch (role?.toUpperCase()) {
+      case 'ADMIN':
+        return 'bg-gradient-to-br from-red-500 to-red-600 text-white ring-red-500/30';
+      case 'TECHNICIAN':
+        return 'bg-gradient-to-br from-blue-500 to-blue-600 text-white ring-blue-500/30';
+      case 'USER':
+        return 'bg-gradient-to-br from-green-500 to-green-600 text-white ring-green-500/30';
+      default:
+        return 'bg-gradient-to-br from-gray-500 to-gray-600 text-white ring-gray-500/30';
+    }
+  };
+
+  const getUserInitial = () => {
+    if (user?.fullName) {
+      return user.fullName.charAt(0).toUpperCase();
+    }
+    if (user?.email) {
+      return user.email.charAt(0).toUpperCase();
+    }
+    return 'U';
   };
 
   return (
@@ -42,38 +70,13 @@ function Header({ sidebarCollapsed, onToggleSidebar, user, onLogout }) {
               Dashboard
             </h1>
             <p className="text-slate-600 dark:text-slate-400">
-              Welcome back, {user?.fullName || user?.email || 'User'}! Here's what's happening today.
+              Welcome back, {user?.fullName || user?.email?.split('@')[0] || 'User'}! Here's what's happening today.
             </p>
-          </div>
-        </div>
-
-        {/* Center - Search */}
-        <div className="flex-1 max-w-md mx-8">
-          <div className="relative">
-            <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400" />
-            <input
-              type="text"
-              placeholder="Search Anything"
-              className="w-full pl-10 pr-4 py-2.5 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-            />
-            <button className="absolute right-2 top-1/2 transform -translate-y-1/2 p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300">
-              <Filter className="w-4 h-4" />
-            </button>
           </div>
         </div>
 
         {/* Right Section */}
         <div className="flex items-center space-x-3">
-          {/* Quick Action */}
-          <button className="hidden lg:flex items-center space-x-2 py-2 px-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-xl hover:shadow transition-all">
-            <Plus className="w-4 h-4" />
-            <span className="text-sm font-medium">New</span>
-          </button>
-
-          {/* Theme Toggle */}
-          <button className="p-2.5 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
-            <Sun className="w-5 h-5" />
-          </button>
 
           {/* Notifications */}
           <button className="relative p-2.5 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
@@ -83,9 +86,9 @@ function Header({ sidebarCollapsed, onToggleSidebar, user, onLogout }) {
             </span>
           </button>
 
-          {/* Settings */}
+          {/* Theme Toggle */}
           <button className="p-2.5 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
-            <Settings className="w-5 h-5" />
+            <Sun className="w-5 h-5" />
           </button>
 
           {/* User Profile Dropdown */}
@@ -94,14 +97,14 @@ function Header({ sidebarCollapsed, onToggleSidebar, user, onLogout }) {
               onClick={() => setShowUserMenu(!showUserMenu)}
               className="flex items-center space-x-3 pl-3 border-l border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg p-2 transition-colors"
             >
-              <img
-                src={user?.avatar || "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&w=64&h=64&dpr=2"}
-                alt="User"
-                className="w-8 h-8 rounded-full ring-2 ring-blue-500"
-              />
+              {/* Avatar with Initial */}
+              <div className={`w-8 h-8 rounded-full ring-2 flex items-center justify-center font-semibold text-sm ${getAvatarColor(user?.role)}`}>
+                {getUserInitial()}
+              </div>
+              
               <div className="hidden md:block text-left">
                 <p className="text-sm font-medium text-slate-800 dark:text-white">
-                  {user?.fullName || user?.email || 'User'}
+                  {user?.fullName || user?.email?.split('@')[0] || 'User'}
                 </p>
                 <div className="flex items-center space-x-2">
                   <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${getRoleColor(user?.role)}`}>
@@ -121,26 +124,29 @@ function Header({ sidebarCollapsed, onToggleSidebar, user, onLogout }) {
             {showUserMenu && (
               <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 z-[9999]" style={{ zIndex: 9999 }}>
                 <div className="p-4 border-b border-slate-200 dark:border-slate-700">
-                  <p className="font-medium text-slate-800 dark:text-white">
-                    {user?.fullName || 'User'}
-                  </p>
-                  <p className="text-sm text-slate-500 dark:text-slate-400">
-                    {user?.email}
-                  </p>
-                  <span className={`inline-block mt-2 text-xs px-2 py-1 rounded-full font-medium ${getRoleColor(user?.role)}`}>
+                  <div className="flex items-center space-x-3 mb-2">
+                    
+                    <div>
+                      <p className="font-medium text-slate-800 dark:text-white">
+                        {user?.fullName || user?.email?.split('@')[0] || 'User'}
+                      </p>
+                      <p className="text-sm text-slate-500 dark:text-slate-400">
+                        {user?.email}
+                      </p>
+                    </div>
+                  </div>
+                  <span className={`inline-block text-xs px-2 py-1 rounded-full font-medium ${getRoleColor(user?.role)}`}>
                     {user?.role || 'User'} Account
                   </span>
                 </div>
                 
                 <div className="p-2">
-                  <button className="w-full flex items-center space-x-3 p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors">
+                  <button 
+                    onClick={handleProfileClick}
+                    className="w-full flex items-center space-x-3 p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors"
+                  >
                     <User className="w-4 h-4" />
                     <span>Profile Settings</span>
-                  </button>
-                  
-                  <button className="w-full flex items-center space-x-3 p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors">
-                    <Settings className="w-4 h-4" />
-                    <span>Account Settings</span>
                   </button>
                   
                   <hr className="my-2 border-slate-200 dark:border-slate-700" />

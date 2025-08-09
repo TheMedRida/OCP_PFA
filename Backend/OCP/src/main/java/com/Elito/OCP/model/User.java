@@ -1,6 +1,7 @@
 package com.Elito.OCP.model;
 
 import com.Elito.OCP.domain.USER_ROLE;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -21,7 +22,7 @@ public class User implements UserDetails {
 
     private String fullName;
     private String email;
-    //private String tel;
+    private String tel;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
@@ -29,14 +30,22 @@ public class User implements UserDetails {
     @Embedded
     private TwoFactorAuth twoFactorAuth = new TwoFactorAuth();
 
-    //@Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     private USER_ROLE role = USER_ROLE.USER;
 
-    /*@Column(nullable = false)
-    private boolean isActive = false;
+    //@Column(nullable = false)
+    //private boolean isActive = false;
+
+    //@JsonIgnore
+
+    @OneToMany(mappedBy = "createdBy")
+    @JsonIgnore
+    private List<Intervention> interventionsCreated;
+
 
     @OneToMany(mappedBy = "assignedTechnician")
-    private List<Intervention> assignedInterventions;*/
+    @JsonIgnore
+    private List<Intervention> assignedInterventions;
 
     // UserDetails methods implementation
     @Override

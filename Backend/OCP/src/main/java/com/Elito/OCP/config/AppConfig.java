@@ -22,9 +22,26 @@ public class AppConfig {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http.sessionManagement(mangement-> mangement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(Authorize ->Authorize.requestMatchers("/api/**").authenticated()
-                        .requestMatchers("/auth/users/reset-password/**").permitAll()
-                        .anyRequest().permitAll())
+                .authorizeHttpRequests(Authorize ->Authorize
+
+                        .requestMatchers("/api/interventions/assigned").hasAuthority("TECHNICIAN")
+                        .requestMatchers("/api/interventions/my").authenticated()
+
+
+                        // Admin-specific endpoints
+                        .requestMatchers("/api/admin/**").hasAuthority("ADMIN")
+
+                        // Technician-specific endpoints
+                        .requestMatchers("/api/interventions/complete").hasAuthority("TECHNICIAN")
+                        .requestMatchers("/api/interventions/assign").hasAuthority("ADMIN")
+
+                        // Authenticated user endpoints
+                        .requestMatchers("/api/**").authenticated()
+
+                        // Public endpoints
+                        .requestMatchers("/auth/**").permitAll()
+                        .anyRequest().permitAll()
+                )
                 .addFilterBefore(new JwtTokenValidator() , BasicAuthenticationFilter.class)
                 .csrf(csrf->csrf.disable())
                 .cors(cors->cors.configurationSource(corsConfigrationSource()));

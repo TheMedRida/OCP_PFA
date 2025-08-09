@@ -15,4 +15,6 @@ public interface UserService {
 
     User updatePassword(User user , String newPassword);
 
+    User disableTwoFactorAuthentication(User user) throws Exception;
+
 }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Shield, ArrowLeft, RefreshCw } from 'lucide-react';
-import { useAuth } from '../../contexts/AuthContext';
+import { useAuth } from '../../Contexts/AuthContext';
 
 export default function TwoFactorVerification() {
   const [otp, setOtp] = useState(['', '', '', '', '', '']);

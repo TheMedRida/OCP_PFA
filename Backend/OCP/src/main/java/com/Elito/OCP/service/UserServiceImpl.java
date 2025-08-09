@@ -68,4 +68,17 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(newPassword));
         return userRepository.save(user);
     }
+
+
+    @Override
+    public User disableTwoFactorAuthentication(User user) throws Exception {
+        if (user.getTwoFactorAuth() == null || !user.getTwoFactorAuth().isEnabled()) {
+            throw new Exception("Two-factor authentication is not enabled");
+        }
+
+        user.getTwoFactorAuth().setEnabled(false);
+        user.getTwoFactorAuth().setSendTo(null);
+
+        return userRepository.save(user);
+    }
 }

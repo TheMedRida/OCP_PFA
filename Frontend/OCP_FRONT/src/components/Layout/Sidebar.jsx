@@ -1,123 +1,78 @@
-import { BarChart3, Calendar, ChevronDown, CreditCard, FileText, LayoutDashboard, MessageSquare, Package, Settings, ShoppingBag, Users, Zap, LogOut, Shield } from "lucide-react";
-import React, { useState } from "react";
+import { BarChart3, Calendar, FileText, LayoutDashboard, MessageSquare, Package, Settings, ShoppingBag, Users, Zap, LogOut, Shield, User } from "lucide-react";
+import React from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 // Define menu items based on roles
 const getMenuItemsByRole = (userRole) => {
-  const baseItems = [
+  
+  const adminItems = [
     {
-      id: "dashboard",
+      id: "/admin/dashboard",
+      path: "/admin/dashboard", 
+      icon: BarChart3,
+      label: "Admin Dashboard",
+      roles: ["ADMIN"]
+    },
+    {
+      id: "/admin/users",
+      path: "/admin/users",
+      icon: Users,
+      label: "User Management",
+      roles: ["ADMIN"]
+    },
+    {
+      id: "/admin/interventions", 
+      path: "/admin/interventions",
+      icon: Package,
+      label: "Interventions",
+      roles: ["ADMIN"]
+    },
+  ];
+
+  const userItems = [
+    {
+      id: "/user/dashboard",
+      path: "/user/dashboard", 
       icon: LayoutDashboard,
       label: "Dashboard",
-      active: true,
-      roles: ["ADMIN", "USER", "MANAGER", "VIEWER"]
+      roles: ["USER"]
+    },
+    {
+      id: "/user/create-intervention",
+      path: "/user/create-intervention",
+      icon: Package,
+      label: "Create Intervention", 
+      roles: ["USER"]
     }
   ];
 
-  const adminItems = [
+  const technicianItems = [
     {
-      id: "analytics",
-      icon: BarChart3,
-      label: "Analytics",
-      roles: ["ADMIN", "MANAGER"],
-      submenu: [
-        { id: "overview", label: "Overview" },
-        { id: "reports", label: "Reports" },
-        { id: "insights", label: "Insights" }
-      ]
+      id: "/technician/dashboard",
+      path: "/technician/dashboard", 
+      icon: LayoutDashboard,
+      label: "Dashboard",
+      roles: ["TECHNICIAN"]
     },
     {
-      id: "users",
-      icon: Users,
-      label: "User Management",
-      count: "2.4k",
-      roles: ["ADMIN"],
-      submenu: [
-        { id: "all-users", label: "All Users" },
-        { id: "roles", label: "Roles & Permissions" },
-        { id: "activity", label: "User Activity" }
-      ]
-    },
-    {
-      id: "ecommerce",
-      icon: ShoppingBag,
-      label: "E-commerce",
-      roles: ["ADMIN", "MANAGER"],
-      submenu: [
-        { id: "products", label: "Products" },
-        { id: "orders", label: "Orders" },
-        { id: "customers", label: "Customers" }
-      ]
-    },
-    {
-      id: "inventory",
+      id: "/technician/intervention",
+      path: "/technician/intervention", 
       icon: Package,
-      label: "Inventory",
-      count: "847",
-      roles: ["ADMIN", "MANAGER", "USER"]
-    },
-    {
-      id: "transactions",
-      icon: CreditCard,
-      label: "Transactions",
-      roles: ["ADMIN", "MANAGER"]
-    },
-    {
-      id: "messages",
-      icon: MessageSquare,
-      label: "Messages",
-      badge: "12",
-      roles: ["ADMIN", "USER", "MANAGER"]
-    },
-    {
-      id: "calendar",
-      icon: Calendar,
-      label: "Calendar",
-      roles: ["ADMIN", "USER", "MANAGER", "VIEWER"]
-    },
-    {
-      id: "reports",
-      icon: FileText,
-      label: "Reports",
-      roles: ["ADMIN", "MANAGER"]
-    },
-    {
-      id: "security",
-      icon: Shield,
-      label: "Security",
-      roles: ["ADMIN"],
-      submenu: [
-        { id: "two-factor", label: "Two-Factor Auth" },
-        { id: "audit-logs", label: "Audit Logs" },
-        { id: "permissions", label: "Permissions" }
-      ]
-    },
-    {
-      id: "settings",
-      icon: Settings,
-      label: "Settings",
-      roles: ["ADMIN", "MANAGER"]
+      label: "Intervention",
+      roles: ["TECHNICIAN"]
     }
   ];
 
   // Filter items based on user role
-  const allItems = [...baseItems, ...adminItems];
+  const allItems = [...adminItems, ...userItems, ...technicianItems];
   return allItems.filter(item => 
     item.roles.includes(userRole?.toUpperCase() || 'USER')
   );
 };
 
-function Sidebar({ collapsed, onToggle, currentPage, onPageChange, userRole, user, onLogout }) {
-  const [expandedItems, setExpandedItems] = useState(new Set(["analytics"]));
-
-  const toggleExpanded = (itemId) => {
-    const newExpanded = new Set(expandedItems);
-    if (newExpanded.has(itemId)) {
-      newExpanded.delete(itemId);
-    } else {
-      newExpanded.add(itemId);
-    }
-    setExpandedItems(newExpanded);
-  };
+function Sidebar({ collapsed, onToggle, userRole, user, onLogout }) {
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const menuItems = getMenuItemsByRole(userRole);
 
@@ -125,6 +80,55 @@ function Sidebar({ collapsed, onToggle, currentPage, onPageChange, userRole, use
     if (window.confirm('Are you sure you want to logout?')) {
       onLogout();
     }
+  };
+
+  const handleNavigation = (path) => {
+    navigate(path);
+  };
+
+  const handleProfileClick = () => {
+    navigate('/profile');
+  };
+
+  const isActive = (itemPath) => {
+    return location.pathname === itemPath || 
+           (itemPath === "/dashboard" && location.pathname === "/");
+  };
+
+  const getRoleColor = (role) => {
+    switch (role?.toUpperCase()) {
+      case 'ADMIN':
+        return 'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400';
+      case 'TECHNICIAN':
+        return 'bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400';
+      case 'USER':
+        return 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400';
+      default:
+        return 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400';
+    }
+  };
+
+  const getAvatarColor = (role) => {
+    switch (role?.toUpperCase()) {
+      case 'ADMIN':
+        return 'bg-gradient-to-br from-red-500 to-red-600 text-white ring-red-500/30';
+      case 'TECHNICIAN':
+        return 'bg-gradient-to-br from-blue-500 to-blue-600 text-white ring-blue-500/30';
+      case 'USER':
+        return 'bg-gradient-to-br from-green-500 to-green-600 text-white ring-green-500/30';
+      default:
+        return 'bg-gradient-to-br from-gray-500 to-gray-600 text-white ring-gray-500/30';
+    }
+  };
+
+  const getUserInitial = () => {
+    if (user?.fullName) {
+      return user.fullName.charAt(0).toUpperCase();
+    }
+    if (user?.email) {
+      return user.email.charAt(0).toUpperCase();
+    }
+    return 'U';
   };
 
   return (
@@ -138,7 +142,7 @@ function Sidebar({ collapsed, onToggle, currentPage, onPageChange, userRole, use
           {!collapsed && (
             <div>
               <h1 className="text-xl font-bold text-slate-800 dark:text-white">Nexus</h1>
-              <p className="text-xs text-slate-500 dark:text-slate-400">Admin Panel</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">OCP Orbital</p>
             </div>
           )}
         </div>
@@ -147,85 +151,52 @@ function Sidebar({ collapsed, onToggle, currentPage, onPageChange, userRole, use
       {/* Navigation */}
       <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
         {menuItems.map((item) => (
-          <div key={item.id}>
-            <button
-              className={`w-full flex items-center justify-between p-3 rounded-xl transition-all duration-200 ${
-                currentPage === item.id || item.active
-                  ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-500/25"
-                  : "text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/50"
-              }`}
-              onClick={() => {
-                if (item.submenu) {
-                  toggleExpanded(item.id);
-                } else {
-                  onPageChange(item.id);
-                }
-              }}
-            >
-              <div className="flex items-center space-x-3">
-                <item.icon className="w-5 h-5" />
-                {!collapsed && (
-                  <>
-                    <span className="font-medium">{item.label}</span>
-                    {item.badge && (
-                      <span className="px-2 py-1 text-xs bg-red-500 text-white rounded-full">
-                        {item.badge}
-                      </span>
-                    )}
-                    {item.count && (
-                      <span className="px-2 py-1 text-xs bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-full">
-                        {item.count}
-                      </span>
-                    )}
-                  </>
-                )}
-              </div>
-              {!collapsed && item.submenu && (
-                <ChevronDown 
-                  className={`w-4 h-4 transition-transform ${
-                    expandedItems.has(item.id) ? 'rotate-180' : ''
-                  }`} 
-                />
+          <button
+            key={item.id}
+            className={`w-full flex items-center justify-between p-3 rounded-xl transition-all duration-200 ${
+              isActive(item.path)
+                ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-500/25"
+                : "text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/50"
+            }`}
+            onClick={() => handleNavigation(item.path)}
+          >
+            <div className="flex items-center space-x-3">
+              <item.icon className="w-5 h-5" />
+              {!collapsed && (
+                <span className="font-medium">{item.label}</span>
               )}
-            </button>
-
-            {/* Submenu */}
-            {!collapsed && item.submenu && expandedItems.has(item.id) && (
-              <div className="ml-8 mt-2 space-y-1">
-                {item.submenu.map((subitem) => (
-                  <button
-                    key={subitem.id}
-                    className="w-full text-left p-2 text-sm text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800/50 rounded-lg transition-all"
-                    onClick={() => onPageChange(subitem.id)}
-                  >
-                    {subitem.label}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
+            </div>
+          </button>
         ))}
       </nav>
 
-      {/* User Profile & Logout */}
+      {/* User Profile & Logout - Expanded */}
       {!collapsed && (
         <div className="p-4 border-t border-slate-200/50 dark:border-slate-700/50 space-y-3">
           {/* User Info */}
-          <div className="flex items-center space-x-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
-            <img
-              src={user?.avatar || "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&w=64&h=64&dpr=2"}
-              alt="user"
-              className="w-10 h-10 rounded-full ring-2 ring-blue-500"
-            />
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-slate-800 dark:text-white truncate">
-                {user?.fullName || user?.email || 'User'}
-              </p>
-              <p className="text-xs text-slate-500 dark:text-slate-400 truncate">
-                {userRole || 'User'}
-              </p>
+          <button
+            onClick={handleProfileClick}
+            className="w-full flex items-center space-x-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-700/50 transition-all duration-200"
+          >
+            <div className={`w-10 h-10 rounded-full ring-2 flex items-center justify-center font-semibold text-sm ${getAvatarColor(userRole)}`}>
+              {getUserInitial()}
             </div>
-          </div>
+            <div className="flex-1 min-w-0 text-left">
+              <p className="text-sm font-medium text-slate-800 dark:text-white truncate">
+                {user?.fullName || user?.email?.split('@')[0] || 'User'}
+              </p>
+              <div className="flex items-center space-x-1">
+                <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${getRoleColor(userRole)}`}>
+                  {userRole || 'User'}
+                </span>
+                {user?.twoFactorEnabled && (
+                  <span className="text-xs text-green-600 dark:text-green-400" title="2FA Enabled">
+                    🔐
+                  </span>
+                )}
+              </div>
+            </div>
+          </button>
 
           {/* Logout Button */}
           <button
@@ -238,9 +209,21 @@ function Sidebar({ collapsed, onToggle, currentPage, onPageChange, userRole, use
         </div>
       )}
 
-      {/* Collapsed Logout Button */}
+      {/* User Profile & Logout - Collapsed */}
       {collapsed && (
-        <div className="p-4 border-t border-slate-200/50 dark:border-slate-700/50">
+        <div className="p-4 border-t border-slate-200/50 dark:border-slate-700/50 space-y-2">
+          {/* User Avatar - Clickable */}
+          <button
+            onClick={handleProfileClick}
+            className="flex justify-center w-full p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800/50 transition-all duration-200"
+            title={`${user?.fullName || 'User'} - Click to view profile`}
+          >
+            <div className={`w-10 h-10 rounded-full ring-2 flex items-center justify-center font-semibold text-sm ${getAvatarColor(userRole)}`}>
+              {getUserInitial()}
+            </div>
+          </button>
+          
+          {/* Logout Button */}
           <button
             onClick={handleLogout}
             className="w-full p-3 rounded-xl text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all duration-200 flex justify-center"

@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { useAuth } from '../../contexts/AuthContext';
+import { useAuth } from '../../Contexts/AuthContext';
 import Sidebar from './Sidebar';
 import Header from './Header';
+import { useNavigate } from 'react-router-dom';
 
 const MainLayout = ({ children }) => {
   const [sideBarCollapsed, setSideBarCollapsed] = useState(false);
-  const [currentPage, setCurrentPage] = useState('dashboard');
+  const [currentPage, setCurrentPage] = useState();
   const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
   const toggleSidebar = () => {
     setSideBarCollapsed(!sideBarCollapsed);
@@ -16,6 +18,14 @@ const MainLayout = ({ children }) => {
     setCurrentPage(pageId);
     // You can add routing logic here
     console.log('Navigating to:', pageId);
+  };
+
+  const handleNavigation = (path) => {
+    navigate(path);
+  };
+
+  const handleLogout = () => {
+    logout();
   };
 
   return (
@@ -28,7 +38,8 @@ const MainLayout = ({ children }) => {
           onPageChange={handlePageChange}
           userRole={user?.role}
           user={user}
-          onLogout={logout}
+          onLogout={handleLogout}
+          onNavigate={handleNavigation} // Add this prop
         />
         <div className="flex-1 flex flex-col overflow-hidden">
           <Header

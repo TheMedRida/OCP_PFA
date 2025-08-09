@@ -162,6 +162,30 @@ public class UserController {
     }
 
 
+    @PatchMapping("/api/users/disable-two-factor/verify-otp/{otp}")
+    public ResponseEntity<User> disableTwoFactorAuthentication(
+            @PathVariable String otp,
+            @RequestHeader("Authorization") String jwt) throws Exception {
+
+        User user = userService.findUserProfileByJwt(jwt);
+
+        // Verify the OTP
+        VerificationCode verificationCode = verificationCodeService.getVerificationCodeByUser(user.getId());
+
+        if (verificationCode == null || !verificationCode.getOtp().equals(otp)) {
+            throw new Exception("Invalid verification code");
+        }
+
+        // Disable 2FA
+        User updatedUser = userService.disableTwoFactorAuthentication(user);
+
+        // Clean up the verification code
+        verificationCodeService.deleteVerificationCodeById(verificationCode);
+
+        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+    }
+
+
 
 
 

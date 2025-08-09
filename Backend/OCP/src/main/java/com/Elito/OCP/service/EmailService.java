@@ -21,13 +21,13 @@ public class EmailService {
     }
 
 
-    /*public void sendWelcomeEmail(String to, String subject, String body) {
+    public void sendWelcomeEmail(String to, String subject, String body) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
         message.setSubject(subject);
         message.setText(body);
         javaMailSender.send(message);
-    }*/
+    }
 
     public void sendVerificationOtpEmail(String email,String otp) throws MessagingException {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { User, Mail, Shield, Settings, Eye, EyeOff } from 'lucide-react';
-import { useAuth } from '../../contexts/AuthContext';
+import { useAuth } from '../../Contexts/AuthContext';
 
-export default function UserProfile() {
+export default function Profile() {
   const [userProfile, setUserProfile] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
