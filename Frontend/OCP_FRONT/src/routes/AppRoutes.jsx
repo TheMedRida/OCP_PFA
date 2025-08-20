@@ -86,6 +86,7 @@ const AppRoutes = () => {
               <Route path="dashboard" element={<AdminDashboard />} />
               <Route path="users" element={<UserManagement />} />
               <Route path="interventions" element={<InterventionManagement />} />
+              <Route path="dashboard-sensors" element={<Dashboard />} />
               <Route path="" element={<Navigate to="dashboard" replace />} />
             </Routes>
           </MainLayout>
@@ -97,7 +98,7 @@ const AppRoutes = () => {
         <ProtectedRoute requiredRole="USER">
           <MainLayout>
             <Routes>
-              <Route path="dashboard" element={<Dashboard />} />
+              <Route path="dashboard-sensors" element={<Dashboard />} />
               <Route path="create-intervention" element={<CreateIntervention />} />
               <Route path="" element={<Navigate to="dashboard" replace />} />
             </Routes>
@@ -110,7 +111,7 @@ const AppRoutes = () => {
         <ProtectedRoute requiredRole="TECHNICIAN">
           <MainLayout>
             <Routes>
-              <Route path="dashboard" element={<Dashboard />} />
+              <Route path="dashboard-sensors" element={<Dashboard />} />
               <Route path="intervention" element={<AssignedInterventions />} />
               {/* Add more technician-specific routes here */}
               <Route path="" element={<Navigate to="dashboard" replace />} />

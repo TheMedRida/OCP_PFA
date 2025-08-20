@@ -27,12 +27,19 @@ const getMenuItemsByRole = (userRole) => {
       label: "Interventions",
       roles: ["ADMIN"]
     },
+    {
+      id: "/admin/dashboard-sensors",
+      path: "/admin/dashboard-sensors", 
+      icon: LayoutDashboard,
+      label: "Dashboard",
+      roles: ["ADMIN"]
+    },
   ];
 
   const userItems = [
     {
-      id: "/user/dashboard",
-      path: "/user/dashboard", 
+      id: "/user/dashboard-sensors",
+      path: "/user/dashboard-sensors", 
       icon: LayoutDashboard,
       label: "Dashboard",
       roles: ["USER"]
@@ -48,8 +55,8 @@ const getMenuItemsByRole = (userRole) => {
 
   const technicianItems = [
     {
-      id: "/technician/dashboard",
-      path: "/technician/dashboard", 
+      id: "/technician/dashboard-sensors",
+      path: "/technician/dashboard-sensors", 
       icon: LayoutDashboard,
       label: "Dashboard",
       roles: ["TECHNICIAN"]
