@@ -25,11 +25,11 @@ const ProtectedRoute = ({ children, requiredRole = null }) => {
   // Check role-based access if required
   if (requiredRole && user?.role !== requiredRole) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
         <div className="text-center">
-          <h1 className="text-4xl font-bold text-gray-800 mb-4">403</h1>
-          <p className="text-gray-600 mb-4">Access Denied</p>
-          <p className="text-sm text-gray-500">You don't have permission to access this page.</p>
+          <h1 className="text-4xl font-bold text-white mb-4">403</h1>
+          <p className="text-gray-300 mb-4">Access Denied</p>
+          <p className="text-sm text-gray-400">You don't have permission to access this page.</p>
         </div>
       </div>
     );

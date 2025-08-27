@@ -186,7 +186,6 @@ export default function InterventionManagement() {
     }
   };
 
-
   const handleSort = (field) => {
     if (sortField === field) {
       setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
@@ -265,16 +264,16 @@ export default function InterventionManagement() {
 
   return (
     <div className="space-y-6">
-      {/* Compact Header with Controls */}
-      <div className="bg-white/10 backdrop-blur-lg rounded-xl border border-white/20 p-6">
+      {/* Compact Header with Controls - UPDATED TO DARKER */}
+      <div className="bg-slate-800/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-2xl border border-slate-700/50 dark:border-slate-700/50 p-6 shadow-xl">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
           <div className="flex items-center space-x-4">
             <div className="w-10 h-10 bg-gradient-to-r from-orange-500 to-red-500 rounded-lg flex items-center justify-center">
               <AlertTriangle className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-gray-800 dark:text-white">Intervention Management</h1>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
+              <h1 className="text-xl font-bold text-white dark:text-white">Intervention Management</h1>
+              <p className="text-sm text-slate-300 dark:text-slate-300">
                 {filteredInterventions.length} total : {" "}
                 <span className="inline-block w-3 h-3 bg-yellow-500 rounded-full mx-2"></span>
                 {filteredInterventions.filter(i => i.status === 'PENDING').length} pending{" "}
@@ -289,23 +288,23 @@ export default function InterventionManagement() {
           <div className="flex flex-col sm:flex-row gap-2">
             {/* Search */}
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
               <input
                 type="text"
                 placeholder="Search interventions..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 pr-4 py-2 bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="pl-10 pr-4 py-2 bg-slate-700/50 dark:bg-slate-800/50 border border-slate-600/50 dark:border-slate-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder-slate-400"
               />
             </div>
 
             {/* Filter */}
             <div className="relative">
-              <Filter className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+              <Filter className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
               <select
                 value={filterStatus}
                 onChange={(e) => setFilterStatus(e.target.value)}
-                className="pl-10 pr-8 py-2 bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="pl-10 pr-8 py-2 bg-slate-700/50 dark:bg-slate-800/50 border border-slate-600/50 dark:border-slate-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white"
               >
                 <option value="ALL">All Status</option>
                 <option value="PENDING">Pending</option>
@@ -324,16 +323,16 @@ export default function InterventionManagement() {
         </div>
       )}
 
-      {/* Interventions Table */}
-      <div className="bg-white/10 backdrop-blur-lg rounded-xl border border-white/20 overflow-hidden">
+      {/* Interventions Table - UPDATED TO DARKER */}
+      <div className="bg-slate-800/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-2xl border border-slate-700/50 dark:border-slate-700/50 overflow-hidden shadow-xl">
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-white/5 border-b border-white/10">
+            <thead className="bg-slate-700/50 dark:bg-slate-800/50 border-b border-slate-600/50 dark:border-slate-600/50">
               <tr>
                 <th className="px-6 py-4 text-left">
                   <button
                     onClick={() => handleSort('title')}
-                    className="flex items-center space-x-1 text-sm font-medium text-gray-800 dark:text-white hover:text-purple-600"
+                    className="flex items-center space-x-1 text-sm font-medium text-white dark:text-white hover:text-purple-400"
                   >
                     <span>Intervention</span>
                     <ArrowUpDown className="w-4 h-4" />
@@ -342,7 +341,7 @@ export default function InterventionManagement() {
                 <th className="px-6 py-4 text-left">
                   <button
                     onClick={() => handleSort('createdBy')}
-                    className="flex items-center space-x-1 text-sm font-medium text-gray-800 dark:text-white hover:text-purple-600"
+                    className="flex items-center space-x-1 text-sm font-medium text-white dark:text-white hover:text-purple-400"
                   >
                     <span>Created By</span>
                     <ArrowUpDown className="w-4 h-4" />
@@ -351,7 +350,7 @@ export default function InterventionManagement() {
                 <th className="px-6 py-4 text-left">
                   <button
                     onClick={() => handleSort('assignedTechnician')}
-                    className="flex items-center space-x-1 text-sm font-medium text-gray-800 dark:text-white hover:text-purple-600"
+                    className="flex items-center space-x-1 text-sm font-medium text-white dark:text-white hover:text-purple-400"
                   >
                     <span>Assigned To</span>
                     <ArrowUpDown className="w-4 h-4" />
@@ -360,7 +359,7 @@ export default function InterventionManagement() {
                 <th className="px-6 py-4 text-left">
                   <button
                     onClick={() => handleSort('status')}
-                    className="flex items-center space-x-1 text-sm font-medium text-gray-800 dark:text-white hover:text-purple-600"
+                    className="flex items-center space-x-1 text-sm font-medium text-white dark:text-white hover:text-purple-400"
                   >
                     <span>Status</span>
                     <ArrowUpDown className="w-4 h-4" />
@@ -369,36 +368,36 @@ export default function InterventionManagement() {
                 <th className="px-6 py-4 text-left">
                   <button
                     onClick={() => handleSort('createdAt')}
-                    className="flex items-center space-x-1 text-sm font-medium text-gray-800 dark:text-white hover:text-purple-600"
+                    className="flex items-center space-x-1 text-sm font-medium text-white dark:text-white hover:text-purple-400"
                   >
                     <span>Date</span>
                     <ArrowUpDown className="w-4 h-4" />
                   </button>
                 </th>
-                <th className="px-6 py-4 text-left text-sm font-medium text-gray-800 dark:text-white">Actions</th>
+                <th className="px-6 py-4 text-left text-sm font-medium text-white dark:text-white">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/10">
+            <tbody className="divide-y divide-slate-600/50 dark:divide-slate-600/50">
               {paginatedInterventions.map((intervention) => (
-                <tr key={intervention.id} className="hover:bg-white/5 transition-colors">
+                <tr key={intervention.id} className="hover:bg-slate-700/30 dark:hover:bg-slate-700/30 transition-colors">
                   <td className="px-6 py-4">
                     <div>
-                      <p className="font-medium text-gray-800 dark:text-white">{intervention.title}</p>
-                      <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">{intervention.description}</p>
+                      <p className="font-medium text-white dark:text-white">{intervention.title}</p>
+                      <p className="text-sm text-slate-300 dark:text-slate-300 line-clamp-2">{intervention.description}</p>
                     </div>
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex items-center space-x-3">
-                      <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-full flex items-center justify-center">
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center bg-gradient-to-r from-green-500 to-green-600`}>
                         <span className="text-white text-sm font-medium">
                           {intervention.createdBy?.fullName?.charAt(0) || 'U'}
                         </span>
                       </div>
                       <div>
-                        <p className="text-sm font-medium text-gray-800 dark:text-white">
+                        <p className="text-sm font-medium text-white dark:text-white">
                           {intervention.createdBy?.fullName}
                         </p>
-                        <p className="text-xs text-gray-600 dark:text-gray-400">
+                        <p className="text-xs text-slate-300 dark:text-slate-300">
                           {intervention.createdBy?.email}
                         </p>
                       </div>
@@ -407,22 +406,22 @@ export default function InterventionManagement() {
                   <td className="px-6 py-4">
                     {intervention.assignedTechnician ? (
                       <div className="flex items-center space-x-3">
-                        <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-green-500 rounded-full flex items-center justify-center">
+                        <div className={`w-8 h-8 rounded-full flex items-center justify-center bg-gradient-to-r from-blue-500 to-blue-600`}>
                           <span className="text-white text-sm font-medium">
                             {intervention.assignedTechnician.fullName?.charAt(0) || 'T'}
                           </span>
                         </div>
                         <div>
-                          <p className="text-sm font-medium text-gray-800 dark:text-white">
+                          <p className="text-sm font-medium text-white dark:text-white">
                             {intervention.assignedTechnician.fullName}
                           </p>
-                          <p className="text-xs text-gray-600 dark:text-gray-400">
+                          <p className="text-xs text-slate-300 dark:text-slate-300">
                             {intervention.assignedTechnician.email}
                           </p>
                         </div>
                       </div>
                     ) : (
-                      <span className="text-sm text-gray-500 dark:text-gray-400">Unassigned</span>
+                      <span className="text-sm text-slate-400 dark:text-slate-400">Unassigned</span>
                     )}
                   </td>
                   <td className="px-6 py-4">
@@ -432,7 +431,7 @@ export default function InterventionManagement() {
                     </span>
                   </td>
                   <td className="px-6 py-4">
-                    <div className="text-sm text-gray-600 dark:text-gray-400">
+                    <div className="text-sm text-slate-300 dark:text-slate-300">
                       <p>{new Date(intervention.createdAt).toLocaleDateString()}</p>
                       <p>{new Date(intervention.createdAt).toLocaleTimeString()}</p>
                     </div>
@@ -444,7 +443,7 @@ export default function InterventionManagement() {
                           setSelectedIntervention(intervention);
                           setShowViewModal(true);
                         }}
-                        className="p-2 text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/20 rounded-lg transition-colors"
+                        className="p-2 text-blue-400 hover:bg-blue-900/20 rounded-lg transition-colors"
                       >
                         <Eye className="w-4 h-4" />
                       </button>
@@ -454,7 +453,7 @@ export default function InterventionManagement() {
                             setSelectedIntervention(intervention);
                             setShowAssignModal(true);
                           }}
-                          className="p-2 text-green-600 dark:text-green-400 hover:bg-green-100 dark:hover:bg-green-900/20 rounded-lg transition-colors"
+                          className="p-2 text-green-400 hover:bg-green-900/20 rounded-lg transition-colors"
                         >
                           <UserCheck className="w-4 h-4" />
                         </button>
@@ -466,7 +465,7 @@ export default function InterventionManagement() {
                             setSelectedTechnicianId(intervention.assignedTechnician.id);
                             setShowUpdateAssignModal(true);
                           }}
-                          className="p-2 text-orange-600 dark:text-orange-400 hover:bg-orange-100 dark:hover:bg-orange-900/20 rounded-lg transition-colors"
+                          className="p-2 text-orange-400 hover:bg-orange-900/20 rounded-lg transition-colors"
                           title="Update Assignment"
                         >
                           <UserCheck className="w-4 h-4" />
@@ -477,7 +476,7 @@ export default function InterventionManagement() {
                           setSelectedIntervention(intervention);
                           setShowDeleteModal(true);
                         }}
-                        className="p-2 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                        className="p-2 text-red-400 hover:bg-red-900/20 rounded-lg transition-colors"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
@@ -490,9 +489,9 @@ export default function InterventionManagement() {
 
           {paginatedInterventions.length === 0 && (
             <div className="text-center py-8">
-              <AlertTriangle className="mx-auto h-12 w-12 text-gray-400" />
-              <h3 className="mt-2 text-sm font-medium text-gray-900 dark:text-white">No interventions found</h3>
-              <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+              <AlertTriangle className="mx-auto h-12 w-12 text-slate-400" />
+              <h3 className="mt-2 text-sm font-medium text-white dark:text-white">No interventions found</h3>
+              <p className="mt-1 text-sm text-slate-300 dark:text-slate-300">
                 {searchTerm || filterStatus !== 'ALL' ? 'Try adjusting your search or filter criteria.' : 'No interventions available.'}
               </p>
             </div>
@@ -501,25 +500,25 @@ export default function InterventionManagement() {
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="flex items-center justify-between px-6 py-4 bg-white/5 border-t border-white/10">
-            <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
+          <div className="flex items-center justify-between px-6 py-4 bg-slate-700/50 dark:bg-slate-800/50 border-t border-slate-600/50 dark:border-slate-600/50">
+            <div className="flex items-center text-sm text-slate-300 dark:text-slate-300">
               <span>Showing {startIndex + 1} to {Math.min(startIndex + itemsPerPage, filteredInterventions.length)} of {filteredInterventions.length} results</span>
             </div>
             <div className="flex items-center space-x-2">
               <button
                 onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                 disabled={currentPage === 1}
-                className="p-2 text-gray-600 dark:text-gray-400 hover:text-purple-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="p-2 text-slate-300 dark:text-slate-300 hover:text-purple-400 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
-              <span className="text-sm text-gray-600 dark:text-gray-400">
+              <span className="text-sm text-slate-300 dark:text-slate-300">
                 Page {currentPage} of {totalPages}
               </span>
               <button
                 onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                 disabled={currentPage === totalPages}
-                className="p-2 text-gray-600 dark:text-gray-400 hover:text-purple-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="p-2 text-slate-300 dark:text-slate-300 hover:text-purple-400 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <ChevronRight className="w-4 h-4" />
               </button>
@@ -528,16 +527,16 @@ export default function InterventionManagement() {
         )}
       </div>
 
-      {/* View Intervention Modal */}
+      {/* View Intervention Modal - UPDATED TO DARKER */}
       {showViewModal && selectedIntervention && (
-        <div className="fixed inset-0 z-999 bg-black/50 flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-lg p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 z-999 bg-black/50 flex items-center justify-center p-4 backdrop-blur-sm">
+          <div className="bg-slate-900/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-2xl shadow-2xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-slate-700/50">
             {/* Header */}
-            <div className="flex items-center justify-between mb-4 border-b pb-2 border-gray-200 dark:border-gray-700">
-              <h3 className="text-2xl font-semibold text-gray-800 dark:text-white">Intervention Details</h3>
+            <div className="flex items-center justify-between mb-4 border-b pb-2 border-slate-600/50">
+              <h3 className="text-2xl font-semibold text-white">Intervention Details</h3>
               <button
                 onClick={() => setShowViewModal(false)}
-                className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                className="p-2 text-slate-400 hover:text-slate-200"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -555,10 +554,10 @@ export default function InterventionManagement() {
 
             {/* Title & Description */}
             <div className="mb-6">
-              <h4 className="text-lg font-semibold text-gray-800 dark:text-white mb-1">
+              <h4 className="text-lg font-semibold text-white mb-1">
                 {selectedIntervention.title}
               </h4>
-              <p className="text-gray-600 dark:text-gray-400">
+              <p className="text-slate-300">
                 {selectedIntervention.description}
               </p>
             </div>
@@ -566,22 +565,23 @@ export default function InterventionManagement() {
             {/* Details Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Created By */}
-              <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg shadow-sm">
-                <h5 className="text-sm font-medium text-gray-800 dark:text-white mb-3 flex items-center">
+              <div className="bg-slate-800/50 p-4 rounded-lg shadow-sm border border-slate-600/50">
+                <h5 className="text-sm font-medium text-white mb-3 flex items-center">
                   <User className="w-4 h-4 mr-2" />
                   Created By
                 </h5>
+      
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-full flex items-center justify-center">
+                <div className={`w-9 h-9 rounded-full flex items-center justify-center bg-gradient-to-r from-green-500 to-green-600`}>
                     <span className="text-white font-medium">
                       {selectedIntervention.createdBy?.fullName?.charAt(0) || 'U'}
                     </span>
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-gray-800 dark:text-white">
+                    <p className="text-sm font-semibold text-white">
                       {selectedIntervention.createdBy?.fullName}
                     </p>
-                    <p className="text-xs text-gray-600 dark:text-gray-400">
+                    <p className="text-xs text-slate-300">
                       {selectedIntervention.createdBy?.email}
                     </p>
                   </div>
@@ -589,83 +589,79 @@ export default function InterventionManagement() {
               </div>
 
               {/* Assigned Technician */}
-              <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg shadow-sm">
-                <h5 className="text-sm font-medium text-gray-800 dark:text-white mb-3 flex items-center">
+              <div className="bg-slate-800/50 p-4 rounded-lg shadow-sm border border-slate-600/50">
+                <h5 className="text-sm font-medium text-white mb-3 flex items-center">
                   <UserCheck className="w-4 h-4 mr-2" />
                   Assigned To
                 </h5>
                 {selectedIntervention.assignedTechnician ? (
                   <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 bg-gradient-to-r from-blue-500 to-green-500 rounded-full flex items-center justify-center">
+                    <div className={`w-9 h-9 rounded-full flex items-center justify-center bg-gradient-to-r from-blue-500 to-blue-600`}>
                       <span className="text-white font-medium">
                         {selectedIntervention.assignedTechnician.fullName?.charAt(0) || 'T'}
                       </span>
                     </div>
                     <div>
-                      <p className="text-sm font-semibold text-gray-800 dark:text-white">
+                      <p className="text-sm font-semibold text-white">
                         {selectedIntervention.assignedTechnician.fullName}
                       </p>
-                      <p className="text-xs text-gray-600 dark:text-gray-400">
+                      <p className="text-xs text-slate-300">
                         {selectedIntervention.assignedTechnician.email}
                       </p>
                     </div>
                   </div>
                 ) : (
-                  <p className="text-sm text-gray-500 dark:text-gray-400">Not assigned</p>
+                  <p className="text-sm text-slate-400">Not assigned</p>
                 )}
               </div>
 
-              {/* Creation Date (Full Width) */}
-              <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg shadow-sm md:col-span-1">
-                <h5 className="text-sm font-medium text-gray-800 dark:text-white mb-3 flex items-center">
+              {/* Creation Date */}
+              <div className="bg-slate-800/50 p-4 rounded-lg shadow-sm border border-slate-600/50">
+                <h5 className="text-sm font-medium text-white mb-3 flex items-center">
                   <Calendar className="w-4 h-4 mr-2" />
                   Created
                 </h5>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
+                <p className="text-sm text-slate-300">
                   {new Date(selectedIntervention.createdAt).toLocaleString()}
                 </p>
               </div>
 
               {/* Completion Date */}
-              <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg shadow-sm md:col-span-1">
-                <h5 className="text-sm font-medium text-gray-800 dark:text-white mb-3 flex items-center">
+              <div className="bg-slate-800/50 p-4 rounded-lg shadow-sm border border-slate-600/50">
+                <h5 className="text-sm font-medium text-white mb-3 flex items-center">
                   <Calendar className="w-4 h-4 mr-2" />
                   Completed
                 </h5>
                 {selectedIntervention.completedAt ? (
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                  <p className="text-sm text-slate-300">
                     {new Date(selectedIntervention.completedAt).toLocaleString()}
                   </p>
                 ) : (
-                  <p className="text-sm text-gray-500 dark:text-gray-400">Not completed</p>
+                  <p className="text-sm text-slate-400">Not completed</p>
                 )}
               </div>
-
-
             </div>
-
           </div>
         </div>
       )}
 
-
-      {/* Assign Technician Modal */}
+      {/* Assign Technician Modal - UPDATED TO DARKER */}
       {showAssignModal && selectedIntervention && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-999 p-4">
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 max-w-md w-full">
-            <h3 className="text-xl font-bold mb-4 text-gray-800 dark:text-white">Assign Technician</h3>
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-999 p-4 backdrop-blur-sm">
+          <div className="bg-slate-900/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-2xl p-6 max-w-md w-full shadow-2xl border border-slate-700/50">
+            <h3 className="text-xl font-bold mb-4 text-white">Assign Technician</h3>
 
-            <div className="mb-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-              <h4 className="font-medium text-gray-800 dark:text-white">{selectedIntervention.title}</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">{selectedIntervention.description}</p>
+            <div className="mb-4 p-4 bg-slate-800/50 rounded-lg border border-slate-600/50">
+              <h4 className="font-medium text-white">{selectedIntervention.title}</h4>
+              <p className="text-sm text-slate-300 mt-1">{selectedIntervention.description}</p>
             </div>
 
             <div className="mb-6">
-              <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Select Technician</label>
+              <label className="block text-sm font-medium mb-2 text-slate-300">Select Technician</label>
               <select
                 value={selectedTechnicianId}
                 onChange={(e) => setSelectedTechnicianId(e.target.value)}
-                className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white dark:bg-gray-700 text-gray-800 dark:text-white"
+                className="w-full px-3 py-2 text-sm border border-slate-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 bg-slate-800 text-white"
               >
                 <option value="">Choose a technician...</option>
                 {technicians.map((technician) => (
@@ -683,14 +679,14 @@ export default function InterventionManagement() {
                   setSelectedIntervention(null);
                   setSelectedTechnicianId('');
                 }}
-                className="flex-1 px-4 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-gray-700 dark:text-gray-300"
+                className="flex-1 px-4 py-2 text-sm border border-slate-600 text-slate-300 bg-slate-800 rounded-lg hover:bg-slate-700 transition-colors"
               >
                 Cancel
               </button>
               <button
                 onClick={handleAssignTechnician}
                 disabled={isAssigning || !selectedTechnicianId}
-                className="flex-1 px-4 py-2 text-sm bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors disabled:opacity-50"
+                className="flex-1 px-4 py-2 text-sm bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors disabled:opacity-50 shadow-lg"
               >
                 {isAssigning ? 'Assigning...' : 'Assign'}
               </button>
@@ -699,20 +695,25 @@ export default function InterventionManagement() {
         </div>
       )}
 
-      {/* Update Assignment Modal */}
+      {/* Update Assignment Modal - UPDATED TO DARKER */}
       {showUpdateAssignModal && selectedIntervention && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-999 p-4 backdrop-blur-sm transition-all duration-200">
-          <div className="bg-white dark:bg-gray-800 rounded-xl p-6 max-w-md w-full animate-fade-in-up animate-duration-200 shadow-xl">
-            {/* ... (keep existing header and intervention info) ... */}
+          <div className="bg-slate-900/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-2xl p-6 max-w-md w-full animate-fade-in-up animate-duration-200 shadow-2xl border border-slate-700/50">
+            <h3 className="text-xl font-bold mb-4 text-white">Update Assignment</h3>
+
+            <div className="mb-4 p-4 bg-slate-800/50 rounded-lg border border-slate-600/50">
+              <h4 className="font-medium text-white">{selectedIntervention.title}</h4>
+              <p className="text-sm text-slate-300 mt-1">{selectedIntervention.description}</p>
+            </div>
 
             <div className="mb-6">
-              <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
+              <label className="block text-sm font-medium mb-2 text-slate-300">
                 Technician Assignment
               </label>
               <select
                 value={selectedTechnicianId || ''}
                 onChange={(e) => setSelectedTechnicianId(e.target.value || null)}
-                className="w-full px-3 py-2.5 text-sm border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-800 dark:text-white transition-all"
+                className="w-full px-3 py-2.5 text-sm border border-slate-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-slate-800 text-white transition-all"
               >
                 <option value="">Unassign (no technician)</option>
                 {technicians.map((technician) => (
@@ -721,7 +722,7 @@ export default function InterventionManagement() {
                   </option>
                 ))}
               </select>
-              <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+              <p className="mt-1 text-xs text-slate-400">
                 Select "Unassign" to remove current technician
               </p>
             </div>
@@ -733,7 +734,7 @@ export default function InterventionManagement() {
                   setSelectedIntervention(null);
                   setSelectedTechnicianId('');
                 }}
-                className="flex-1 px-4 py-2.5 text-sm font-medium border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-all text-gray-700 dark:text-gray-300"
+                className="flex-1 px-4 py-2.5 text-sm font-medium border border-slate-600 text-slate-300 bg-slate-800 rounded-lg hover:bg-slate-700 transition-all"
               >
                 Cancel
               </button>
@@ -741,8 +742,8 @@ export default function InterventionManagement() {
                 onClick={handleUpdateAssignment}
                 disabled={isAssigning}
                 className={`flex-1 px-4 py-2.5 text-sm font-medium text-white rounded-lg transition-all ${isAssigning
-                  ? 'bg-orange-400 dark:bg-orange-500/50 cursor-not-allowed'
-                  : 'bg-orange-500 hover:bg-orange-600 shadow-md hover:shadow-orange-200 dark:hover:shadow-orange-900/50'
+                  ? 'bg-orange-400 cursor-not-allowed'
+                  : 'bg-orange-500 hover:bg-orange-600 shadow-lg'
                   }`}
               >
                 {isAssigning ? (
@@ -759,8 +760,8 @@ export default function InterventionManagement() {
 
             {error && (
               <div className={`mt-4 p-3 rounded-lg text-sm ${error.includes('success')
-                ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300'
-                : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300'
+                ? 'bg-green-900/30 text-green-300'
+                : 'bg-red-900/30 text-red-300'
                 }`}>
                 {error}
               </div>
@@ -768,22 +769,23 @@ export default function InterventionManagement() {
           </div>
         </div>
       )}
-      {/* Delete Confirmation Modal */}
+
+      {/* Delete Confirmation Modal - UPDATED TO DARKER */}
       {showDeleteModal && selectedIntervention && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-999 p-4">
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 max-w-md w-full">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-999 p-4 backdrop-blur-sm">
+          <div className="bg-slate-900/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-2xl p-6 max-w-md w-full shadow-2xl border border-slate-700/50">
             <div className="flex items-center space-x-3 mb-4">
-              <div className="w-10 h-10 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center">
-                <Trash2 className="w-5 h-5 text-red-600" />
+              <div className="w-10 h-10 bg-red-900/20 rounded-full flex items-center justify-center">
+                <Trash2 className="w-5 h-5 text-red-400" />
               </div>
               <div>
-                <h3 className="text-lg font-bold text-gray-800 dark:text-white">Delete Intervention</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400">This action cannot be undone</p>
+                <h3 className="text-lg font-bold text-white">Delete Intervention</h3>
+                <p className="text-sm text-slate-300">This action cannot be undone</p>
               </div>
             </div>
 
-            <div className="bg-red-50 dark:bg-red-900/20 p-3 rounded-lg mb-4">
-              <p className="text-sm text-red-700 dark:text-red-400">
+            <div className="bg-red-900/20 p-3 rounded-lg mb-4 border border-red-500/20">
+              <p className="text-sm text-red-300">
                 Are you sure you want to delete <strong>"{selectedIntervention.title}"</strong>?
                 This will permanently remove the intervention and all associated data.
               </p>
@@ -796,14 +798,14 @@ export default function InterventionManagement() {
                   setShowDeleteModal(false);
                   setSelectedIntervention(null);
                 }}
-                className="flex-1 px-4 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-gray-700 dark:text-gray-300"
+                className="flex-1 px-4 py-2 text-sm border border-slate-600 text-slate-300 bg-slate-800 rounded-lg hover:bg-slate-700 transition-colors"
               >
                 Cancel
               </button>
               <button
                 onClick={handleDeleteIntervention}
                 disabled={isDeleting}
-                className="flex-1 px-4 py-2 text-sm bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50"
+                className="flex-1 px-4 py-2 text-sm bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50 shadow-lg"
               >
                 {isDeleting ? 'Deleting...' : 'Delete Intervention'}
               </button>

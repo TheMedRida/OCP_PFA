@@ -35,6 +35,9 @@ public class AppConfig {
                         .requestMatchers("/api/interventions/complete").hasAuthority("TECHNICIAN")
                         .requestMatchers("/api/interventions/assign").hasAuthority("ADMIN")
 
+
+                        .requestMatchers("/api/sensors/**").permitAll()
+
                         // Authenticated user endpoints
                         .requestMatchers("/api/**").authenticated()
 

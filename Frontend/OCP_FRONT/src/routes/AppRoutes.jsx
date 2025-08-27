@@ -15,7 +15,6 @@ import AdminDashboard from '../components/Actors/ADMIN/AdminDashboard';
 import RoleBasedRedirect from './RoleBasedRedirect';
 import { useAuth } from '../Contexts/AuthContext';
 import AssignedInterventions from '../components/Actors/TECHNICIAN/AssignedInterventions';
-import TechnicianDashboard from '../components/Actors/TECHNICIAN/TechnicianDashboard';
 
 const NotFound = () => {
   const navigate = useNavigate();
@@ -30,10 +29,10 @@ const NotFound = () => {
           navigate('/admin/dashboard');
           break;
         case 'USER':
-          navigate('/user/dashboard');
+          navigate('/user/dashboard-sensors');
           break;
         case 'TECHNICIAN':
-          navigate('/technician/dashboard');
+          navigate('/technician/dashboard-sensors');
           break;
         default:
           navigate('/login');
@@ -100,7 +99,7 @@ const AppRoutes = () => {
             <Routes>
               <Route path="dashboard-sensors" element={<Dashboard />} />
               <Route path="create-intervention" element={<CreateIntervention />} />
-              <Route path="" element={<Navigate to="dashboard" replace />} />
+              <Route path="" element={<Navigate to="dashboard-sensors" replace />} />
             </Routes>
           </MainLayout>
         </ProtectedRoute>
@@ -114,7 +113,7 @@ const AppRoutes = () => {
               <Route path="dashboard-sensors" element={<Dashboard />} />
               <Route path="intervention" element={<AssignedInterventions />} />
               {/* Add more technician-specific routes here */}
-              <Route path="" element={<Navigate to="dashboard" replace />} />
+              <Route path="" element={<Navigate to="dashboard-sensors" replace />} />
             </Routes>
           </MainLayout>
         </ProtectedRoute>

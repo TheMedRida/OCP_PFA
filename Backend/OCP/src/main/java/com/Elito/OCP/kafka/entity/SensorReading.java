@@ -138,5 +138,15 @@ public class SensorReading {
     private Double failureProbability;
     private String maintenanceTypeLabel;
     private String failureComponentClass;
+
+
+
+    // NEW ML PREDICTION COLUMNS
+    private Double mlFailureProbability;
+    private Boolean mlPredictedFailure;
+    private String mlPredictionTimestamp;
+    private String mlModelVersion;
+    private String mlConfidenceLevel;
+    private Integer mlPredictionLatencyMs;
 }
 

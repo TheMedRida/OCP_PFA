@@ -206,21 +206,21 @@ export default function Profile() {
     <div className="space-y-6">
       <div className="max-w-4xl mx-auto space-y-6">
         {/* Profile Header */}
-        <div className="bg-white/10 backdrop-blur-lg rounded-2xl border border-white/20 p-8">
+        <div className="bg-slate-800/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-2xl border border-slate-700/50 dark:border-slate-700/50 p-8 shadow-xl">
           <div className="flex items-center space-x-6">
             <div className={`w-20 h-20 rounded-full flex items-center justify-center ring-4 ${getAvatarColor(userProfile?.role)}`}>
               <span className="text-2xl font-bold">{getUserInitial()}</span>
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-gray-800 dark:text-white">
+              <h1 className="text-3xl font-bold text-white dark:text-white">
                 {userProfile?.fullName || 'User Profile'}
               </h1>
-              <p className="text-gray-600 dark:text-gray-300 flex items-center mt-2">
+              <p className="text-slate-300 dark:text-slate-300 flex items-center mt-2">
                 <Mail className="w-4 h-4 mr-2" />
                 {userProfile?.email}
               </p>
               {userProfile?.role && (
-                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                <p className="text-sm text-slate-400 dark:text-slate-400 mt-1">
                   Role: {userProfile.role}
                 </p>
               )}
@@ -229,18 +229,18 @@ export default function Profile() {
         </div>
 
         {/* Security Settings */}
-        <div className="bg-white/10 backdrop-blur-lg rounded-2xl border border-white/20 p-8">
-          <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6 flex items-center">
+        <div className="bg-slate-800/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-2xl border border-slate-700/50 dark:border-slate-700/50 p-8 shadow-xl">
+          <h2 className="text-2xl font-bold text-white dark:text-white mb-6 flex items-center">
             <Shield className="w-6 h-6 mr-3" />
             Security Settings
           </h2>
 
           {/* Two-Factor Authentication */}
           <div className="space-y-4">
-            <div className="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-white/10">
+            <div className="flex items-center justify-between p-4 bg-slate-700/50 dark:bg-slate-800/50 rounded-xl border border-slate-600/50 dark:border-slate-600/50">
               <div>
-                <h3 className="font-semibold text-gray-800 dark:text-white">Two-Factor Authentication</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
+                <h3 className="font-semibold text-white dark:text-white">Two-Factor Authentication</h3>
+                <p className="text-sm text-slate-300 dark:text-slate-300">
                   {userProfile?.twoFactorAuth?.enabled 
                     ? 'Your account is protected with 2FA' 
                     : 'Add an extra layer of security to your account'
@@ -250,12 +250,12 @@ export default function Profile() {
               <div className="flex items-center space-x-3">
                 {userProfile?.twoFactorAuth?.enabled ? (
                   <div className="flex items-center space-x-3">
-                    <span className="px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-sm font-medium">
+                    <span className="px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-sm font-medium border border-green-500/30">
                       Enabled
                     </span>
                     <button
                       onClick={() => setShowDisable2FA(true)}
-                      className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+                      className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors shadow-lg"
                     >
                       Disable
                     </button>
@@ -274,44 +274,44 @@ export default function Profile() {
         </div>
 
         {/* Account Information */}
-        <div className="bg-white/10 backdrop-blur-lg rounded-2xl border border-white/20 p-8">
-          <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6 flex items-center">
+        <div className="bg-slate-800/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-2xl border border-slate-700/50 dark:border-slate-700/50 p-8 shadow-xl">
+          <h2 className="text-2xl font-bold text-white dark:text-white mb-6 flex items-center">
             <Settings className="w-6 h-6 mr-3" />
             Account Information
           </h2>
           
           <div className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="p-4 bg-white/5 rounded-xl border border-white/10">
-                <label className="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">
+              <div className="p-4 bg-slate-700/50 dark:bg-slate-800/50 rounded-xl border border-slate-600/50 dark:border-slate-600/50">
+                <label className="block text-sm font-medium text-slate-400 dark:text-slate-400 mb-2">
                   Full Name
                 </label>
-                <p className="text-gray-800 dark:text-white font-medium">
+                <p className="text-white dark:text-white font-medium">
                   {userProfile?.fullName || 'Not set'}
                 </p>
               </div>
-              <div className="p-4 bg-white/5 rounded-xl border border-white/10">
-                <label className="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">
+              <div className="p-4 bg-slate-700/50 dark:bg-slate-800/50 rounded-xl border border-slate-600/50 dark:border-slate-600/50">
+                <label className="block text-sm font-medium text-slate-400 dark:text-slate-400 mb-2">
                   Email Address
                 </label>
-                <p className="text-gray-800 dark:text-white font-medium">
+                <p className="text-white dark:text-white font-medium">
                   {userProfile?.email}
                 </p>
               </div>
-              <div className="p-4 bg-white/5 rounded-xl border border-white/10">
-                <label className="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2 flex items-center">
+              <div className="p-4 bg-slate-700/50 dark:bg-slate-800/50 rounded-xl border border-slate-600/50 dark:border-slate-600/50">
+                <label className="block text-sm font-medium text-slate-400 dark:text-slate-400 mb-2 flex items-center">
                   <Phone className="w-4 h-4 mr-2" />
                   Phone Number
                 </label>
-                <p className="text-gray-800 dark:text-white font-medium">
+                <p className="text-white dark:text-white font-medium">
                   {userProfile?.tel || 'Not set'}
                 </p>
               </div>
-              <div className="p-4 bg-white/5 rounded-xl border border-white/10">
-                <label className="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">
+              <div className="p-4 bg-slate-700/50 dark:bg-slate-800/50 rounded-xl border border-slate-600/50 dark:border-slate-600/50">
+                <label className="block text-sm font-medium text-slate-400 dark:text-slate-400 mb-2">
                   Role
                 </label>
-                <p className="text-gray-800 dark:text-white font-medium">
+                <p className="text-white dark:text-white font-medium">
                   {userProfile?.role || 'Not set'}
                 </p>
               </div>
@@ -320,28 +320,28 @@ export default function Profile() {
         </div>
       </div>
 
-      {/* 2FA Setup Modal - MOVED OUTSIDE main container */}
+      {/* 2FA Setup Modal */}
       {showTwoFactorSetup && (
-        <div className="fixed inset-0 z-999 bg-black/50  flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-gray-900 rounded-2xl p-8 max-w-md w-full shadow-2xl border border-gray-200 dark:border-gray-700">
-            <h3 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">Enable Two-Factor Authentication</h3>
+        <div className="fixed inset-0 z-999 bg-black/50 flex items-center justify-center p-4 backdrop-blur-sm">
+          <div className="bg-slate-900/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-2xl p-8 max-w-md w-full shadow-2xl border border-slate-700/50">
+            <h3 className="text-xl font-bold mb-4 text-white">Enable Two-Factor Authentication</h3>
             
             {!otpSent ? (
               <div>
-                <p className="text-gray-600 dark:text-gray-300 mb-6">
+                <p className="text-slate-300 mb-6">
                   We'll send a verification code to your email address to enable 2FA.
                 </p>
                 <div className="flex space-x-3">
                   <button
                     onClick={() => setShowTwoFactorSetup(false)}
-                    className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                    className="flex-1 px-4 py-2 border border-slate-600 text-slate-300 bg-slate-800 rounded-lg hover:bg-slate-700 transition-colors"
                   >
                     Cancel
                   </button>
                   <button
                     onClick={handleSendVerificationOtp}
                     disabled={isEnabling2FA}
-                    className="flex-1 px-4 py-2 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-lg hover:from-purple-600 hover:to-purple-700 transition-colors disabled:opacity-50"
+                    className="flex-1 px-4 py-2 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-lg hover:from-purple-600 hover:to-purple-700 transition-colors disabled:opacity-50 shadow-lg"
                   >
                     {isEnabling2FA ? 'Sending...' : 'Send Code'}
                   </button>
@@ -349,7 +349,7 @@ export default function Profile() {
               </div>
             ) : (
               <div>
-                <p className="text-gray-600 dark:text-gray-300 mb-4">
+                <p className="text-slate-300 mb-4">
                   Enter the verification code sent to your email:
                 </p>
                 <input
@@ -357,10 +357,10 @@ export default function Profile() {
                   value={verificationOtp}
                   onChange={(e) => setVerificationOtp(e.target.value)}
                   placeholder="Enter 6-digit code"
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-slate-600 bg-slate-800 text-white rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                 />
                 {error && (
-                  <p className="text-red-500 text-sm mb-4">{error}</p>
+                  <p className="text-red-400 text-sm mb-4">{error}</p>
                 )}
                 <div className="flex space-x-3">
                   <button
@@ -370,14 +370,14 @@ export default function Profile() {
                       setVerificationOtp('');
                       setError('');
                     }}
-                    className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                    className="flex-1 px-4 py-2 border border-slate-600 text-slate-300 bg-slate-800 rounded-lg hover:bg-slate-700 transition-colors"
                   >
                     Cancel
                   </button>
                   <button
                     onClick={handleEnable2FA}
                     disabled={isEnabling2FA}
-                    className="flex-1 px-4 py-2 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-lg hover:from-purple-600 hover:to-purple-700 transition-colors disabled:opacity-50"
+                    className="flex-1 px-4 py-2 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-lg hover:from-purple-600 hover:to-purple-700 transition-colors disabled:opacity-50 shadow-lg"
                   >
                     {isEnabling2FA ? 'Verifying...' : 'Verify & Enable'}
                   </button>
@@ -388,13 +388,13 @@ export default function Profile() {
         </div>
       )}
 
-      {/* Disable 2FA Confirmation Modal - MOVED OUTSIDE main container */}
+      {/* Disable 2FA Confirmation Modal */}
       {showDisable2FA && (
-        <div className="fixed inset-0 z-999 bg-black/50  flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-gray-900 rounded-2xl p-8 max-w-md w-full shadow-2xl border border-gray-200 dark:border-gray-700">
-            <h3 className="text-xl font-bold mb-4 text-red-600 dark:text-red-400">Disable Two-Factor Authentication</h3>
+        <div className="fixed inset-0 z-999 bg-black/50 flex items-center justify-center p-4 backdrop-blur-sm">
+          <div className="bg-slate-900/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-2xl p-8 max-w-md w-full shadow-2xl border border-slate-700/50">
+            <h3 className="text-xl font-bold mb-4 text-red-400">Disable Two-Factor Authentication</h3>
             
-            <p className="text-gray-600 dark:text-gray-300 mb-6">
+            <p className="text-slate-300 mb-6">
               Are you sure you want to disable two-factor authentication? This will make your account less secure.
             </p>
             
@@ -404,14 +404,14 @@ export default function Profile() {
                   setShowDisable2FA(false);
                   setError('');
                 }}
-                className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                className="flex-1 px-4 py-2 border border-slate-600 text-slate-300 bg-slate-800 rounded-lg hover:bg-slate-700 transition-colors"
               >
                 Cancel
               </button>
               <button
                 onClick={handleSendDisableOtp}
                 disabled={isDisabling2FA}
-                className="flex-1 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors disabled:opacity-50"
+                className="flex-1 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors disabled:opacity-50 shadow-lg"
               >
                 {isDisabling2FA ? 'Sending...' : 'Send OTP'}
               </button>
@@ -420,13 +420,13 @@ export default function Profile() {
         </div>
       )}
 
-      {/* Disable 2FA OTP Verification Modal - MOVED OUTSIDE main container */}
+      {/* Disable 2FA OTP Verification Modal */}
       {showDisableOtpVerify && (
-        <div className="fixed inset-0 z-999 bg-black/50  flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-gray-900 rounded-2xl p-8 max-w-md w-full shadow-2xl border border-gray-200 dark:border-gray-700">
-            <h3 className="text-xl font-bold mb-4 text-red-600 dark:text-red-400">Verify to Disable 2FA</h3>
+        <div className="fixed inset-0 z-999 bg-black/50 flex items-center justify-center p-4 backdrop-blur-sm">
+          <div className="bg-slate-900/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-2xl p-8 max-w-md w-full shadow-2xl border border-slate-700/50">
+            <h3 className="text-xl font-bold mb-4 text-red-400">Verify to Disable 2FA</h3>
             
-            <p className="text-gray-600 dark:text-gray-300 mb-4">
+            <p className="text-slate-300 mb-4">
               Enter the verification code sent to your email to disable 2FA:
             </p>
             <input
@@ -434,10 +434,10 @@ export default function Profile() {
               value={disableOtp}
               onChange={(e) => setDisableOtp(e.target.value)}
               placeholder="Enter 6-digit code"
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-slate-600 bg-slate-800 text-white rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
             />
             {error && (
-              <p className="text-red-500 text-sm mb-4">{error}</p>
+              <p className="text-red-400 text-sm mb-4">{error}</p>
             )}
             <div className="flex space-x-3">
               <button
@@ -446,14 +446,14 @@ export default function Profile() {
                   setDisableOtp('');
                   setError('');
                 }}
-                className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                className="flex-1 px-4 py-2 border border-slate-600 text-slate-300 bg-slate-800 rounded-lg hover:bg-slate-700 transition-colors"
               >
                 Cancel
               </button>
               <button
                 onClick={handleDisable2FA}
                 disabled={isDisabling2FA || !disableOtp}
-                className="flex-1 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors disabled:opacity-50"
+                className="flex-1 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors disabled:opacity-50 shadow-lg"
               >
                 {isDisabling2FA ? 'Disabling...' : 'Disable 2FA'}
               </button>

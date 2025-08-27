@@ -131,62 +131,43 @@ export default function AssignedInterventions() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      {/*<div className="bg-white/10 backdrop-blur-lg rounded-2xl border border-white/20 p-6">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-green-500 rounded-xl flex items-center justify-center">
-              <Wrench className="w-6 h-6 text-white" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold text-gray-800 dark:text-white">My Assigned Interventions</h1>
-              <p className="text-gray-600 dark:text-gray-300">Manage and complete your assigned work orders</p>
-            </div>
-          </div>
-          <div className="text-right">
-            <p className="text-sm text-gray-600 dark:text-gray-400">Welcome back,</p>
-            <p className="font-medium text-gray-800 dark:text-white">{user?.fullName}</p>
-          </div>
-        </div>
-      </div>*/}
-
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="bg-white/10 backdrop-blur-lg rounded-xl border border-white/20 p-6">
+        <div className="bg-slate-800/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-xl border border-slate-700/50 dark:border-slate-700/50 p-6 shadow-xl">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Assigned</p>
-              <p className="text-2xl font-bold text-gray-800 dark:text-white">{interventions.length}</p>
+              <p className="text-sm font-medium text-slate-400 dark:text-slate-400">Total Assigned</p>
+              <p className="text-2xl font-bold text-white dark:text-white">{interventions.length}</p>
             </div>
-            <Wrench className="w-8 h-8 text-gray-400" />
+            <Wrench className="w-8 h-8 text-slate-400" />
           </div>
         </div>
         
-        <div className="bg-white/10 backdrop-blur-lg rounded-xl border border-white/20 p-6">
+        <div className="bg-slate-800/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-xl border border-slate-700/50 dark:border-slate-700/50 p-6 shadow-xl">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">In Progress</p>
-              <p className="text-2xl font-bold text-blue-600">{inProgressInterventions.length}</p>
+              <p className="text-sm font-medium text-slate-400 dark:text-slate-400">In Progress</p>
+              <p className="text-2xl font-bold text-blue-400">{inProgressInterventions.length}</p>
             </div>
             <AlertTriangle className="w-8 h-8 text-blue-500" />
           </div>
         </div>
         
-        <div className="bg-white/10 backdrop-blur-lg rounded-xl border border-white/20 p-6">
+        <div className="bg-slate-800/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-xl border border-slate-700/50 dark:border-slate-700/50 p-6 shadow-xl">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Completed</p>
-              <p className="text-2xl font-bold text-green-600">{completedInterventions.length}</p>
+              <p className="text-sm font-medium text-slate-400 dark:text-slate-400">Completed</p>
+              <p className="text-2xl font-bold text-green-400">{completedInterventions.length}</p>
             </div>
             <CheckCircle className="w-8 h-8 text-green-500" />
           </div>
         </div>
 
-        <div className="bg-white/10 backdrop-blur-lg rounded-xl border border-white/20 p-6">
+        <div className="bg-slate-800/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-xl border border-slate-700/50 dark:border-slate-700/50 p-6 shadow-xl">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Completion Rate</p>
-              <p className="text-2xl font-bold text-purple-600">
+              <p className="text-sm font-medium text-slate-400 dark:text-slate-400">Completion Rate</p>
+              <p className="text-2xl font-bold text-purple-400">
                 {interventions.length > 0 ? Math.round((completedInterventions.length / interventions.length) * 100) : 0}%
               </p>
             </div>
@@ -199,7 +180,7 @@ export default function AssignedInterventions() {
 
       {/* Success/Error Messages */}
       {success && (
-        <div className="p-4 bg-green-100 text-green-700 rounded-lg border border-green-200">
+        <div className="p-4 bg-green-900/20 text-green-400 rounded-lg border border-green-800">
           <div className="flex items-center space-x-2">
             <CheckCircle className="w-5 h-5" />
             <span>{success}</span>
@@ -208,7 +189,7 @@ export default function AssignedInterventions() {
       )}
       
       {error && (
-        <div className="p-4 bg-red-100 text-red-700 rounded-lg border border-red-200">
+        <div className="p-4 bg-red-900/20 text-red-400 rounded-lg border border-red-800">
           <div className="flex items-center space-x-2">
             <AlertTriangle className="w-5 h-5" />
             <span>{error}</span>
@@ -217,12 +198,12 @@ export default function AssignedInterventions() {
       )}
 
       {/* In Progress Interventions with Pagination */}
-      <div className="bg-white/10 backdrop-blur-lg rounded-2xl border border-white/20 p-6">
+      <div className="bg-slate-800/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-2xl border border-slate-700/50 dark:border-slate-700/50 p-6 shadow-xl">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold text-gray-800 dark:text-white flex items-center space-x-2">
+          <h2 className="text-xl font-bold text-white dark:text-white flex items-center space-x-2">
             <AlertTriangle className="w-5 h-5 text-blue-500" />
             <span>Active Work Orders</span>
-            <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
+            <span className="text-sm bg-blue-900/30 text-blue-400 px-2 py-1 rounded-full border border-blue-700/50">
               {inProgressInterventions.length}
             </span>
           </h2>
@@ -230,23 +211,23 @@ export default function AssignedInterventions() {
         
         {inProgressInterventions.length === 0 ? (
           <div className="text-center py-12">
-            <CheckCircle className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-800 dark:text-white mb-2">All caught up!</h3>
-            <p className="text-gray-600 dark:text-gray-400">You have no active interventions to work on.</p>
+            <CheckCircle className="w-16 h-16 text-slate-600 mx-auto mb-4" />
+            <h3 className="text-lg font-medium text-white dark:text-white mb-2">All caught up!</h3>
+            <p className="text-slate-400 dark:text-slate-400">You have no active interventions to work on.</p>
           </div>
         ) : (
           <div className="space-y-4">
             {/* Results summary */}
-            <div className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+            <div className="text-sm text-slate-400 dark:text-slate-400 mb-4">
               Showing {activeStartIndex + 1}-{Math.min(activeStartIndex + activeItemsPerPage, inProgressInterventions.length)} of {inProgressInterventions.length} active interventions
             </div>
 
             {paginatedActiveInterventions.map((intervention) => (
-              <div key={intervention.id} className="bg-white/5 rounded-xl border border-white/10 p-6 hover:bg-white/10 transition-colors">
+              <div key={intervention.id} className="bg-slate-700/50 dark:bg-slate-800/50 rounded-xl border border-slate-600/50 dark:border-slate-600/50 p-6 hover:bg-slate-700/70 dark:hover:bg-slate-800/70 transition-colors shadow-lg">
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <div className="flex items-center space-x-3 mb-2">
-                      <h3 className="text-lg font-medium text-gray-800 dark:text-white">{intervention.title}</h3>
+                      <h3 className="text-lg font-medium text-white dark:text-white">{intervention.title}</h3>
                       <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(intervention.status)}`}>
                         {getStatusIcon(intervention.status)}
                         <span className="ml-1">{intervention.status.replace('_', ' ')}</span>
@@ -255,9 +236,9 @@ export default function AssignedInterventions() {
                         {Math.floor((new Date() - new Date(intervention.createdAt)) / (1000 * 60 * 60 * 24))} days old
                       </span>
                     </div>
-                    <p className="text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">{intervention.description}</p>
+                    <p className="text-slate-300 dark:text-slate-300 mb-4 line-clamp-2">{intervention.description}</p>
                     
-                    <div className="flex items-center space-x-6 text-sm text-gray-500 dark:text-gray-400">
+                    <div className="flex items-center space-x-6 text-sm text-slate-400 dark:text-slate-400">
                       <div className="flex items-center space-x-2">
                         <User className="w-4 h-4" />
                         <span>Requested by: {intervention.createdBy?.fullName}</span>
@@ -275,7 +256,7 @@ export default function AssignedInterventions() {
                         setSelectedIntervention(intervention);
                         setShowDetailsModal(true);
                       }}
-                      className="p-2 text-blue-600 hover:bg-blue-100 dark:hover:bg-blue-900/20 rounded-lg transition-colors"
+                      className="p-2 text-blue-400 hover:bg-blue-900/20 dark:hover:bg-blue-900/20 rounded-lg transition-colors border border-blue-700/50 hover:border-blue-600"
                       title="View Details"
                     >
                       <Eye className="w-4 h-4" />
@@ -283,7 +264,7 @@ export default function AssignedInterventions() {
                     <button
                       onClick={() => handleCompleteIntervention(intervention.id)}
                       disabled={completingId === intervention.id}
-                      className="flex items-center space-x-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors disabled:opacity-50"
+                      className="flex items-center space-x-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors disabled:opacity-50 shadow-lg"
                       title="Mark as Completed"
                     >
                       {completingId === intervention.id ? (
@@ -300,25 +281,25 @@ export default function AssignedInterventions() {
 
             {/* Active Interventions Pagination */}
             {activeTotalPages > 1 && (
-              <div className="flex items-center justify-between pt-6 border-t border-white/10">
-                <div className="text-sm text-gray-600 dark:text-gray-400">
+              <div className="flex items-center justify-between pt-6 border-t border-slate-600/50">
+                <div className="text-sm text-slate-400 dark:text-slate-400">
                   Page {activeCurrentPage} of {activeTotalPages}
                 </div>
                 <div className="flex items-center space-x-2">
                   <button
                     onClick={() => setActiveCurrentPage(prev => Math.max(prev - 1, 1))}
                     disabled={activeCurrentPage === 1}
-                    className="p-2 text-gray-600 dark:text-gray-400 hover:text-blue-600 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-white/10 transition-colors"
+                    className="p-2 text-slate-400 dark:text-slate-400 hover:text-blue-400 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-slate-700/50 transition-colors"
                   >
                     <ChevronLeft className="w-4 h-4" />
                   </button>
-                  <span className="text-sm text-gray-600 dark:text-gray-400 px-2">
+                  <span className="text-sm text-slate-400 dark:text-slate-400 px-2">
                     {activeStartIndex + 1}-{Math.min(activeStartIndex + activeItemsPerPage, inProgressInterventions.length)} of {inProgressInterventions.length}
                   </span>
                   <button
                     onClick={() => setActiveCurrentPage(prev => Math.min(prev + 1, activeTotalPages))}
                     disabled={activeCurrentPage === activeTotalPages}
-                    className="p-2 text-gray-600 dark:text-gray-400 hover:text-blue-600 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-white/10 transition-colors"
+                    className="p-2 text-slate-400 dark:text-slate-400 hover:text-blue-400 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-slate-700/50 transition-colors"
                   >
                     <ChevronRight className="w-4 h-4" />
                   </button>
@@ -330,12 +311,12 @@ export default function AssignedInterventions() {
       </div>
 
       {/* Completed Interventions with Pagination */}
-      <div className="bg-white/10 backdrop-blur-lg rounded-2xl border border-white/20 p-6">
+      <div className="bg-slate-800/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-2xl border border-slate-700/50 dark:border-slate-700/50 p-6 shadow-xl">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold text-gray-800 dark:text-white flex items-center space-x-2">
+          <h2 className="text-xl font-bold text-white dark:text-white flex items-center space-x-2">
             <CheckCircle className="w-5 h-5 text-green-500" />
             <span>Completed Work Orders</span>
-            <span className="text-sm bg-green-100 text-green-800 px-2 py-1 rounded-full">
+            <span className="text-sm bg-green-900/30 text-green-400 px-2 py-1 rounded-full border border-green-700/50">
               {completedInterventions.length}
             </span>
           </h2>
@@ -343,28 +324,28 @@ export default function AssignedInterventions() {
         
         {completedInterventions.length === 0 ? (
           <div className="text-center py-8">
-            <p className="text-gray-600 dark:text-gray-400">No completed interventions yet.</p>
+            <p className="text-slate-400 dark:text-slate-400">No completed interventions yet.</p>
           </div>
         ) : (
           <div className="space-y-4">
             {/* Results summary */}
-            <div className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+            <div className="text-sm text-slate-400 dark:text-slate-400 mb-4">
               Showing {completedStartIndex + 1}-{Math.min(completedStartIndex + completedItemsPerPage, completedInterventions.length)} of {completedInterventions.length} completed interventions
             </div>
 
             {paginatedCompletedInterventions.map((intervention) => (
-              <div key={intervention.id} className="bg-white/5 rounded-xl border border-white/10 p-4 opacity-75">
+              <div key={intervention.id} className="bg-slate-700/30 dark:bg-slate-800/30 rounded-xl border border-slate-600/30 dark:border-slate-600/30 p-4 opacity-75 shadow-lg">
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <div className="flex items-center space-x-3 mb-2">
-                      <h3 className="text-md font-medium text-gray-800 dark:text-white">{intervention.title}</h3>
+                      <h3 className="text-md font-medium text-white dark:text-white">{intervention.title}</h3>
                       <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(intervention.status)}`}>
                         {getStatusIcon(intervention.status)}
                         <span className="ml-1">Completed</span>
                       </span>
                     </div>
                     
-                    <div className="flex items-center space-x-6 text-sm text-gray-500 dark:text-gray-400">
+                    <div className="flex items-center space-x-6 text-sm text-slate-400 dark:text-slate-400">
                       <div className="flex items-center space-x-2">
                         <User className="w-4 h-4" />
                         <span>{intervention.createdBy?.fullName}</span>
@@ -381,7 +362,7 @@ export default function AssignedInterventions() {
                       setSelectedIntervention(intervention);
                       setShowDetailsModal(true);
                     }}
-                    className="p-2 text-blue-600 hover:bg-blue-100 dark:hover:bg-blue-900/20 rounded-lg transition-colors"
+                    className="p-2 text-blue-400 hover:bg-blue-900/20 rounded-lg transition-colors border border-blue-700/50 hover:border-blue-600"
                   >
                     <Eye className="w-4 h-4" />
                   </button>
@@ -391,25 +372,25 @@ export default function AssignedInterventions() {
 
             {/* Completed Interventions Pagination */}
             {completedTotalPages > 1 && (
-              <div className="flex items-center justify-between pt-6 border-t border-white/10">
-                <div className="text-sm text-gray-600 dark:text-gray-400">
+              <div className="flex items-center justify-between pt-6 border-t border-slate-600/50">
+                <div className="text-sm text-slate-400 dark:text-slate-400">
                   Page {completedCurrentPage} of {completedTotalPages}
                 </div>
                 <div className="flex items-center space-x-2">
                   <button
                     onClick={() => setCompletedCurrentPage(prev => Math.max(prev - 1, 1))}
                     disabled={completedCurrentPage === 1}
-                    className="p-2 text-gray-600 dark:text-gray-400 hover:text-green-600 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-white/10 transition-colors"
+                    className="p-2 text-slate-400 dark:text-slate-400 hover:text-green-400 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-slate-700/50 transition-colors"
                   >
                     <ChevronLeft className="w-4 h-4" />
                   </button>
-                  <span className="text-sm text-gray-600 dark:text-gray-400 px-2">
+                  <span className="text-sm text-slate-400 dark:text-slate-400 px-2">
                     {completedStartIndex + 1}-{Math.min(completedStartIndex + completedItemsPerPage, completedInterventions.length)} of {completedInterventions.length}
                   </span>
                   <button
                     onClick={() => setCompletedCurrentPage(prev => Math.min(prev + 1, completedTotalPages))}
                     disabled={completedCurrentPage === completedTotalPages}
-                    className="p-2 text-gray-600 dark:text-gray-400 hover:text-green-600 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-white/10 transition-colors"
+                    className="p-2 text-slate-400 dark:text-slate-400 hover:text-green-400 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-slate-700/50 transition-colors"
                   >
                     <ChevronRight className="w-4 h-4" />
                   </button>
@@ -422,148 +403,148 @@ export default function AssignedInterventions() {
 
       {/* Details Modal */}
       {showDetailsModal && selectedIntervention && (
-  <div className="fixed inset-0 z-999 bg-black/50 flex items-center justify-center p-4">
-    <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-lg p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-4 border-b pb-2 border-gray-200 dark:border-gray-700">
-        <h3 className="text-2xl font-semibold text-gray-800 dark:text-white">Intervention Details</h3>
-        <button
-          onClick={() => setShowDetailsModal(false)}
-          className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-        >
-          ×
-        </button>
-      </div>
+        <div className="fixed inset-0 z-999 bg-black/50 flex items-center justify-center p-4 backdrop-blur-sm">
+          <div className="bg-slate-900/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-2xl shadow-2xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-slate-700/50">
+            {/* Header */}
+            <div className="flex items-center justify-between mb-4 border-b pb-2 border-slate-700">
+              <h3 className="text-2xl font-semibold text-white">Intervention Details</h3>
+              <button
+                onClick={() => setShowDetailsModal(false)}
+                className="p-2 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition-colors"
+              >
+                ×
+              </button>
+            </div>
 
-      {/* Status */}
-      <div className="mb-6">
-        <span
-          className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium ${getStatusColor(selectedIntervention.status)}`}
-        >
-          {getStatusIcon(selectedIntervention.status)}
-          {selectedIntervention.status.replace('_', ' ')}
-        </span>
-      </div>
-
-      {/* Title & Description */}
-      <div className="mb-6">
-        <h4 className="text-lg font-semibold text-gray-800 dark:text-white mb-3">
-          {selectedIntervention.title}
-        </h4>
-        <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-          <p className="text-gray-600 dark:text-gray-400 leading-relaxed whitespace-pre-wrap">
-            {selectedIntervention.description}
-          </p>
-        </div>
-      </div>
-
-      {/* Details Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Created By */}
-        <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg shadow-sm">
-          <h5 className="text-sm font-medium text-gray-800 dark:text-white mb-3 flex items-center">
-            <User className="w-4 h-4 mr-2" />
-            Requested By
-          </h5>
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-full flex items-center justify-center">
-              <span className="text-white font-medium">
-                {selectedIntervention.createdBy?.fullName?.charAt(0) || 'U'}
+            {/* Status */}
+            <div className="mb-6">
+              <span
+                className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium ${getStatusColor(selectedIntervention.status)}`}
+              >
+                {getStatusIcon(selectedIntervention.status)}
+                {selectedIntervention.status.replace('_', ' ')}
               </span>
             </div>
-            <div>
-              <p className="text-sm font-semibold text-gray-800 dark:text-white">
-                {selectedIntervention.createdBy?.fullName}
-              </p>
-              <p className="text-xs text-gray-600 dark:text-gray-400">
-                {selectedIntervention.createdBy?.email}
-              </p>
+
+            {/* Title & Description */}
+            <div className="mb-6">
+              <h4 className="text-lg font-semibold text-white mb-3">
+                {selectedIntervention.title}
+              </h4>
+              <div className="bg-slate-800/50 p-4 rounded-lg border border-slate-700/50">
+                <p className="text-slate-300 leading-relaxed whitespace-pre-wrap">
+                  {selectedIntervention.description}
+                </p>
+              </div>
+            </div>
+
+            {/* Details Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Created By */}
+              <div className="bg-slate-800/50 p-4 rounded-lg shadow-sm border border-slate-700/50">
+                <h5 className="text-sm font-medium text-white mb-3 flex items-center">
+                  <User className="w-4 h-4 mr-2" />
+                  Requested By
+                </h5>
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-full flex items-center justify-center bg-gradient-to-r from-green-500 to-green-600">
+                    <span className="text-white font-medium">
+                      {selectedIntervention.createdBy?.fullName?.charAt(0) || 'U'}
+                    </span>
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-white">
+                      {selectedIntervention.createdBy?.fullName}
+                    </p>
+                    <p className="text-xs text-slate-400">
+                      {selectedIntervention.createdBy?.email}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Age */}
+              <div className="bg-slate-800/50 p-4 rounded-lg shadow-sm border border-slate-700/50">
+                <h5 className="text-sm font-medium text-white mb-3 flex items-center">
+                  <Clock className="w-4 h-4 mr-2" />
+                  Time Elapsed
+                </h5>
+                <p className={`text-sm font-medium ${getPriorityColor(selectedIntervention.createdAt)}`}>
+                  {Math.floor((new Date() - new Date(selectedIntervention.createdAt)) / (1000 * 60 * 60 * 24))} days old
+                </p>
+              </div>
+
+              {/* Creation Date */}
+              <div className="bg-slate-800/50 p-4 rounded-lg shadow-sm border border-slate-700/50">
+                <h5 className="text-sm font-medium text-white mb-3 flex items-center">
+                  <Calendar className="w-4 h-4 mr-2" />
+                  Created
+                </h5>
+                <p className="text-sm text-slate-300">
+                  {new Date(selectedIntervention.createdAt).toLocaleString()}
+                </p>
+              </div>
+
+              {/* Completion Date */}
+              <div className="bg-slate-800/50 p-4 rounded-lg shadow-sm border border-slate-700/50">
+                <h5 className="text-sm font-medium text-white mb-3 flex items-center">
+                  <Calendar className="w-4 h-4 mr-2" />
+                  Completed
+                </h5>
+                {selectedIntervention.completedAt ? (
+                  <p className="text-sm text-slate-300">
+                    {new Date(selectedIntervention.completedAt).toLocaleString()}
+                  </p>
+                ) : (
+                  <p className="text-sm text-slate-400">Not completed</p>
+                )}
+              </div>
+            </div>
+
+            {/* Progress Timeline */}
+            <div className="mt-6 bg-slate-800/50 p-4 rounded-lg border border-slate-700/50">
+              <h5 className="text-sm font-medium text-white mb-3">Progress Timeline</h5>
+              <div className="space-y-2">
+                <div className="flex items-center gap-3">
+                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                  <span className="text-sm text-slate-300">
+                    Created on {new Date(selectedIntervention.createdAt).toLocaleDateString()}
+                  </span>
+                </div>
+                {selectedIntervention.completedAt && (
+                  <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 bg-green-600 rounded-full"></div>
+                    <span className="text-sm text-slate-300">
+                      Completed on {new Date(selectedIntervention.completedAt).toLocaleDateString()}
+                    </span>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Actions */}
+            <div className="flex justify-end space-x-3 mt-6 pt-4 border-t border-slate-700">
+              <button
+                onClick={() => setShowDetailsModal(false)}
+                className="px-4 py-2 border border-slate-600 rounded-lg hover:bg-slate-800 transition-colors text-slate-300"
+              >
+                Close
+              </button>
+              {selectedIntervention.status === 'IN_PROGRESS' && (
+                <button
+                  onClick={() => {
+                    setShowDetailsModal(false);
+                    handleCompleteIntervention(selectedIntervention.id);
+                  }}
+                  className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors shadow-lg"
+                >
+                  Mark as Completed
+                </button>
+              )}
             </div>
           </div>
         </div>
-
-        {/* Age */}
-        <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg shadow-sm">
-          <h5 className="text-sm font-medium text-gray-800 dark:text-white mb-3 flex items-center">
-            <Clock className="w-4 h-4 mr-2" />
-            Time Elapsed
-          </h5>
-          <p className={`text-sm font-medium ${getPriorityColor(selectedIntervention.createdAt)}`}>
-            {Math.floor((new Date() - new Date(selectedIntervention.createdAt)) / (1000 * 60 * 60 * 24))} days old
-          </p>
-        </div>
-
-        {/* Creation Date */}
-        <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg shadow-sm">
-          <h5 className="text-sm font-medium text-gray-800 dark:text-white mb-3 flex items-center">
-            <Calendar className="w-4 h-4 mr-2" />
-            Created
-          </h5>
-          <p className="text-sm text-gray-600 dark:text-gray-400">
-            {new Date(selectedIntervention.createdAt).toLocaleString()}
-          </p>
-        </div>
-
-        {/* Completion Date */}
-        <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg shadow-sm">
-          <h5 className="text-sm font-medium text-gray-800 dark:text-white mb-3 flex items-center">
-            <Calendar className="w-4 h-4 mr-2" />
-            Completed
-          </h5>
-          {selectedIntervention.completedAt ? (
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              {new Date(selectedIntervention.completedAt).toLocaleString()}
-            </p>
-          ) : (
-            <p className="text-sm text-gray-500 dark:text-gray-400">Not completed</p>
-          )}
-        </div>
-      </div>
-
-      {/* Progress Timeline */}
-      <div className="mt-6 bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-        <h5 className="text-sm font-medium text-gray-800 dark:text-white mb-3">Progress Timeline</h5>
-        <div className="space-y-2">
-          <div className="flex items-center gap-3">
-            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-            <span className="text-sm text-gray-600 dark:text-gray-400">
-              Created on {new Date(selectedIntervention.createdAt).toLocaleDateString()}
-            </span>
-          </div>
-          {selectedIntervention.completedAt && (
-            <div className="flex items-center gap-3">
-              <div className="w-2 h-2 bg-green-600 rounded-full"></div>
-              <span className="text-sm text-gray-600 dark:text-gray-400">
-                Completed on {new Date(selectedIntervention.completedAt).toLocaleDateString()}
-              </span>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Actions */}
-      <div className="flex justify-end space-x-3 mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
-        <button
-          onClick={() => setShowDetailsModal(false)}
-          className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors text-gray-700 dark:text-gray-300"
-        >
-          Close
-        </button>
-        {selectedIntervention.status === 'IN_PROGRESS' && (
-          <button
-            onClick={() => {
-              setShowDetailsModal(false);
-              handleCompleteIntervention(selectedIntervention.id);
-            }}
-            className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-          >
-            Mark as Completed
-          </button>
-        )}
-      </div>
-    </div>
-  </div>
-)}
+      )}
     </div>
   );
 }
