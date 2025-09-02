@@ -15,6 +15,7 @@ public class SensorReading {
     private Long id;
 
     // Timestamp and Identification
+    private LocalDateTime timestampreal;
     private LocalDateTime timestamp;
     private String machineId;
     private String machineType;

@@ -9,7 +9,7 @@ const getMenuItemsByRole = (userRole) => {
     {
       id: "/admin/dashboard",
       path: "/admin/dashboard", 
-      icon: BarChart3,
+      icon: LayoutDashboard,
       label: "Admin Dashboard",
       roles: ["ADMIN"]
     },
@@ -30,8 +30,8 @@ const getMenuItemsByRole = (userRole) => {
     {
       id: "/admin/dashboard-sensors",
       path: "/admin/dashboard-sensors", 
-      icon: LayoutDashboard,
-      label: "Dashboard",
+      icon: BarChart3,
+      label: "Sensors Dashboard",
       roles: ["ADMIN"]
     },
   ];
@@ -41,7 +41,7 @@ const getMenuItemsByRole = (userRole) => {
       id: "/user/dashboard-sensors",
       path: "/user/dashboard-sensors", 
       icon: LayoutDashboard,
-      label: "Dashboard",
+      label: "Sensors Dashboard",
       roles: ["USER"]
     },
     {
@@ -58,7 +58,7 @@ const getMenuItemsByRole = (userRole) => {
       id: "/technician/dashboard-sensors",
       path: "/technician/dashboard-sensors", 
       icon: LayoutDashboard,
-      label: "Dashboard",
+      label: "Sensors Dashboard",
       roles: ["TECHNICIAN"]
     },
     {

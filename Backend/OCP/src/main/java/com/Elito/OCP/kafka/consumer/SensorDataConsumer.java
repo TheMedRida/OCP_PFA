@@ -34,6 +34,7 @@ public class SensorDataConsumer {
             SensorReading reading = new SensorReading();
 
             // Timestamp and Identification
+            reading.setTimestampreal(LocalDateTime.now());
             reading.setTimestamp(LocalDateTime.parse(data.path("Timestamp").asText(), formatter));
             reading.setMachineId(data.path("Machine_ID").asText());
             reading.setMachineType(data.path("Machine_Type").asText());
@@ -178,7 +179,7 @@ public class SensorDataConsumer {
 
 
             // Check for duplicates and save
-            if (!repository.existsByTimestamp(reading.getTimestamp())) {
+            if (!repository.existsByTimestampreal(reading.getTimestamp())) {
                 repository.save(reading);
                 log.info("Saved sensor data for machine: {} at {}", reading.getMachineId(), reading.getTimestamp());
             } else {

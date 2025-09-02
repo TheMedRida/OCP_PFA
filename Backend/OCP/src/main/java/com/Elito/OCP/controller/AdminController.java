@@ -58,7 +58,7 @@ public class AdminController {
         emailService.sendWelcomeEmail(
                 user.getEmail(),
                 "Your account has been created",
-                "Hi, you can access the app as " + user.getRole() + " with default password: 12345"
+                "Hi "+user.getFullName()+", you can access Nexus app as " + user.getRole() + " with default password: 12345"
         );
 
         return ResponseEntity.ok(savedUser);

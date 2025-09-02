@@ -11,7 +11,7 @@ import time
 app = FastAPI()
 
 # Read CSV (assuming it's already in correct order)
-df = pd.read_csv("RealTime_IoT_PredictiveMaintenance_Dataset.csv")
+df = pd.read_csv("C://Users//redag//OneDrive//Desktop//PFA//dataset//RealTime_IoT_PredictiveMaintenance_Dataset.csv")
 
 @app.get("/api/stream")
 def stream_data():
